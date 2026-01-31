@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Tournament;
 use App\Repositories\TournamentRepository;
 use Illuminate\Database\Eloquent\Collection;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TournamentService
 {
     public function __construct(
@@ -17,9 +17,17 @@ class TournamentService
         return $this->repository->getAll();
     }
 
-    public function get( $id)
+    public function get($id)
     {
+        if (!ctype_digit($id)) {
+            throw new \InvalidArgumentException('El ID debe ser un número entero.');
+        }
 
+        $tournmanet = $this->repository->findById($id);
+
+        if(!$tournmanet){
+            throw new NotFoundHttpException('ID del Torneo no encontrada.');
+        }
 
         return $this->repository->findById($id);
     }

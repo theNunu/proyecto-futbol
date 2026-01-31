@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTournamentRequest;
 use App\Models\Tournament;
 use App\Services\TournamentService;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
 class TournamentController extends Controller
 {
+    // use ApiResponse;
     public function __construct(
         private TournamentService $service
     ) {}
@@ -30,11 +32,21 @@ class TournamentController extends Controller
 
     public function show($tournamentId)
     {
-        $tournament = $this->service->get($tournamentId);
+        try {
+            $tournament = $this->service->get($tournamentId);
+            return $this->respondOk($tournament);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+        // $tournament = $this->service->get($tournamentId);
 
-         return response()->json($tournament, 200);
-        // return response()->json($tournament);
+        //  return response()->json($tournament, 200);
+        // // return response()->json($tournament);
     }
+
+    
+
+    
 
     public function update(StoreTournamentRequest $request,Tournament $tournament): JsonResponse {
         $updated = $this->service->update($tournament, $request->validated());
