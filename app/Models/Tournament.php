@@ -17,8 +17,8 @@ class Tournament extends Model
     /**
      * A tournament has many phases
      */
-    // public function phases(): HasMany
-    // {
-    //     return $this->hasMany(Phase::class, 'tournament_id');
-    // }
+    public function phases(): HasMany
+    {
+        return $this->hasMany(Phase::class, 'tournament_id');
+    }
 }

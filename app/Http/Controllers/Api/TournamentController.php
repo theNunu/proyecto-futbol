@@ -42,24 +42,16 @@ class TournamentController extends Controller
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
-        // $tournament = $this->service->get($tournamentId);
-
-        //  return response()->json($tournament, 200);
-        // // return response()->json($tournament);
     }
 
     public function update(StoreTournamentRequest $request, $tournament_id): JsonResponse
     {
         try {
-            // $tournament = $this->service->get($tournamentId);
             $updated = $this->service->update($tournament_id, $request->validated());
             return $this->respondOk($updated);
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
-        // $updated = $this->service->update($tournament_id, $request->validated());
-
-        // return response()->json($updated);
     }
 
     public function destroy(Tournament $tournament): JsonResponse

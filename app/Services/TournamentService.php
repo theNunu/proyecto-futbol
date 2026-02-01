@@ -56,23 +56,24 @@ class TournamentService
         ]);
     }
 
-    public function update($tournamentId, array $data): Tournament
+    public function update($tournamentId, array $data)
     {
         if (!ctype_digit($tournamentId)) {
             throw new \InvalidArgumentException('El ID debe ser un número entero.');
         }
 
-        $tournmanet = $this->repository->findById($tournamentId);
+        $tournament = $this->repository->findById($tournamentId);
 
-        if (!$tournmanet) {
+        if (!$tournament) {
             throw new NotFoundHttpException('ID del Torneo no encontrada.');
         }
-        return $this->repository->update($tournmanet, $data);
+        $result = $this->repository->update($tournament, $data);
 
-        // return $this->repository->update($tournamentId, $data);
-
-
-        // return $this->repository->update($tournament, $data);
+        return $result->only([
+            'tournament_id',
+            'name',
+            'season'
+        ]);
     }
 
     public function delete(Tournament $tournament): void
