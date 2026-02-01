@@ -2,12 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
 class StoreTournamentRequest extends FormRequest
 {
+
+   use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */

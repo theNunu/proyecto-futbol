@@ -39,4 +39,16 @@ class TournamentRepository
     {
         $tournament->delete();
     }
+
+    /*
+        public function deactivate(Role $role)
+    {
+        $role->is_active = false;
+        $role->updated_by = $this->userIdAccion;
+        $role->save();
+        return $role;
+    }
+    
+    
+    */
 }

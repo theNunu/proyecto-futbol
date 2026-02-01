@@ -11,6 +11,6 @@ Route::prefix('tournaments')->group(function () {
     
     Route::post('/', [\App\Http\Controllers\Api\TournamentController::class, 'store']);
 
-    Route::put('/{tournament_id}', [\App\Http\Controllers\Api\TournamentController::class, 'update']);
+    Route::put('{tournament_id}', [\App\Http\Controllers\Api\TournamentController::class, 'update']);
     Route::delete('/{tournament_id}', [\App\Http\Controllers\Api\TournamentController::class, 'destroy']);
 });
