@@ -55,7 +55,6 @@ class PhaseService
 
     public function store(array $data): array
     {
-        // 1️⃣ Crear la nueva fase
         $phase = $this->repository->create($data);
 
         $phase->load('tournament.phases');
@@ -65,20 +64,27 @@ class PhaseService
         ];
     }
 
-    public function update($tournamentId, array $data): Phase
+    public function update($phaseId, array $data)
     {
-        if (!ctype_digit($tournamentId)) {
+        if (!ctype_digit($phaseId)) {
             throw new \InvalidArgumentException('El ID debe ser un número entero.');
         }
 
-        $phase = $this->repository->findById($tournamentId);
+        $phase = $this->repository->findById($phaseId);
 
         if (!$phase) {
             throw new NotFoundHttpException('ID de la Fase no encontrada.');
         }
-        $result = $this->repository->update($phase, $data);
+        $phase = $this->repository->update($phase, $data);
 
-        return $result->load('tournament');
+         // Cargar torneo con TODAS sus fases
+        $phase->load('tournament.phases');
+
+        return [
+            'tournament' => $phase->tournament
+        ];
+
+        // return $phase->load('tournament');
     }
 
     public function delete(Phase $phase): void
