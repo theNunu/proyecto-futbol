@@ -6,7 +6,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class StorePhaseRequest extends FormRequest
+class StoreTeamRequest extends FormRequest
 {
     use ApiResponse;
     /**
@@ -25,12 +25,9 @@ class StorePhaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tournament_id' => ['required', 'exists:tournaments,tournament_id'],
-            'name' => ['required', 'string', 'max:100'],
-            'order' => ['required', 'integer', 'min:1'],
-            'has_extra_time' => ['boolean'],
-            'has_penalties' => ['boolean'],
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'short_name' => ['nullable', 'string', 'max:10'],
+            'logo_path' => ['nullable', 'string'],
         ];
     }
 
