@@ -12,6 +12,11 @@ class TournamentTeamService
     ) {
     }
 
+    public function getAll()
+    {
+        return $this->repository->getAll();
+    }
+
     public function addTeam(array $data): TournamentTeam
     {
         return $this->repository->create($data);

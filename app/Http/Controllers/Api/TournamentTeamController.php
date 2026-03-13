@@ -15,7 +15,16 @@ class TournamentTeamController extends Controller
         // dd('xvxvx');
     }
 
-    public function index($tournamentId): JsonResponse{
+        public function getAll(): JsonResponse{
+        try {
+            $tournaments = $this->service->getAll();
+            return $this->respondOk($tournaments);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
+
+    public function getTeamsbyTournamentId($tournamentId): JsonResponse{
         try {
             $tournaments = $this->service->listTeams($tournamentId);
             return $this->respondOk($tournaments);

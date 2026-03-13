@@ -16,6 +16,10 @@ class TournamentTeamRepository
         ]);
     }
 
+    public function getAll(){
+        return TournamentTeam::with('team')->get();
+    }
+
     public function getByTournament(int $tournamentId): Collection
     {
         return TournamentTeam::where('tournament_id', $tournamentId)->with('team')->get();
