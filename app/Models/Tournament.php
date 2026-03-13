@@ -21,4 +21,14 @@ class Tournament extends Model
     {
         return $this->hasMany(Phase::class, 'tournament_id');
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(
+            Team::class,
+            'tournament_teams',
+            'tournament_id',
+            'team_id'
+        );
+    }
 }
