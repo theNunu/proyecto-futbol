@@ -24,6 +24,16 @@ class TournamentTeamController extends Controller
         }
     }
 
+     public function getTeams($tournament_id): JsonResponse{
+        try {
+            $tournaments = $this->service->getTeams($tournament_id);
+            return $this->respondOk($tournaments);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
+
+
     public function getTeamsbyTournamentId($tournamentId): JsonResponse{
         try {
             $tournaments = $this->service->listTeams($tournamentId);

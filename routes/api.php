@@ -37,6 +37,7 @@ Route::prefix('teams')->group(function () {
 
 Route::prefix('tournament-teams')->group(function () {
     Route::get('', [TournamentTeamController::class, 'getAll']);
+    Route::get('get-teams/{tournament_id}', [TournamentTeamController::class, 'getTeams']);
     Route::get('{tournament_id}', [TournamentTeamController::class, 'getTeamsbyTournamentId']);
     Route::post('/', [TournamentTeamController::class, 'store']);
     // Route::put('{team_id}', [TeamController::class, 'update']);
