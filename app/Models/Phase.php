@@ -34,8 +34,8 @@ class Phase extends Model
     /**
      * Phase has many matches (future)
      */
-    // public function matches(): HasMany
-    // {
-    //     return $this->hasMany(Match::class, 'phase_id');
-    // }
+    public function matches(): HasMany
+    {
+        return $this->hasMany(GameMatch::class, 'phase_id');
+    }
 }

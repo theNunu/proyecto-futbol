@@ -42,16 +42,16 @@ class Team extends Model
     /**
      * Matches where the team is local
      */
-    // public function homeMatches(): HasMany
-    // {
-    //     return $this->hasMany(Match::class, 'home_team_id');
-    // }
+    public function homeMatches(): HasMany
+    {
+        return $this->hasMany(GameMatch::class, 'home_team_id');
+    }
 
     /**
      * Matches where the team is away
      */
-    // public function awayMatches(): HasMany
-    // {
-    //     return $this->hasMany(Match::class, 'away_team_id');
-    // }
+    public function awayMatches(): HasMany
+    {
+        return $this->hasMany(GameMatch::class, 'away_team_id');
+    }
 }
