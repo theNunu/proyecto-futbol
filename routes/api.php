@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CatalogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
 use App\Http\Controllers\Api\TeamController;
@@ -40,6 +41,14 @@ Route::prefix('tournament-teams')->group(function () {
     Route::get('get-teams/{tournament_id}', [TournamentTeamController::class, 'getTeams']);
     Route::get('{tournament_id}', [TournamentTeamController::class, 'getTeamsbyTournamentId']);
     Route::post('/', [TournamentTeamController::class, 'store']);
+    // Route::put('{team_id}', [TeamController::class, 'update']);
+    // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
+    // Route::get('/{team_id}', [TeamController::class, 'show']);
+});
+
+Route::prefix('catalogs')->group(function () {
+    Route::get('', [CatalogController::class, 'index']);
+    Route::post('/', [CatalogController::class, 'store']);
     // Route::put('{team_id}', [TeamController::class, 'update']);
     // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
     // Route::get('/{team_id}', [TeamController::class, 'show']);
