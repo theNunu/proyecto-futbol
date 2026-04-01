@@ -48,7 +48,10 @@ Route::prefix('tournament-teams')->group(function () {
 
 Route::prefix('catalogs')->group(function () {
     Route::get('', [CatalogController::class, 'index']);
+    Route::get('catalog-detail', [CatalogController::class, 'getAllDetailsWithCatalog']);
     Route::post('/', [CatalogController::class, 'store']);
+    Route::post('catalog-detail', [CatalogController::class, 'createDetail']);
+
     // Route::put('{team_id}', [TeamController::class, 'update']);
     // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
     // Route::get('/{team_id}', [TeamController::class, 'show']);

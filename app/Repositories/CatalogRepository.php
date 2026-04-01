@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Phase;
 use App\Models\Catalog;
+use App\Models\CatalogDetail;
 use Illuminate\Database\Eloquent\Collection;
 
 class CatalogRepository
@@ -31,5 +32,15 @@ class CatalogRepository
     public function delete(Phase $phase): void
     {
         $phase->delete();
+    }
+
+    public function createDetail(array $data)
+    {
+        // dd('mr frog');
+        return CatalogDetail::create([
+            'name' => $data['name'],
+            'key' => $data['key'],
+            'catalog_id' => $data['catalog_id'],
+        ]);
     }
 }

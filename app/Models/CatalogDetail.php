@@ -20,7 +20,7 @@ class CatalogDetail extends Model
     ];
 
 
-    public function catalog_details(): BelongsTo
+    public function catalog(): BelongsTo
     {
         return $this->belongsTo(Catalog::class, 'catalog_detail_id');
     }

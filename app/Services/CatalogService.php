@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Catalog;
+use App\Models\CatalogDetail;
 use App\Models\Tournament;
 use App\Repositories\CatalogRepository;
 // use App\Repositories\TournamentRepository;
@@ -48,5 +49,18 @@ class CatalogService
     {
     //     $this->repository->delete($tournament);
     }
+
+    public function storeDetail(array $data)
+    {
+        return $this->repository->createDetail($data);
+    }
+
+    public function getAllDetailsWithCatalog(){
+        // dd('didy');
+        // return CatalogDetail::with('catalog')->get();
+        return Catalog::with('catalog_details')->get();
+    }
+
+
 
 }
