@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Controllers\AuthController;
 use App\Http\Controllers\Api\CatalogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
@@ -56,3 +57,6 @@ Route::prefix('catalogs')->group(function () {
     // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
     // Route::get('/{team_id}', [TeamController::class, 'show']);
 });
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
