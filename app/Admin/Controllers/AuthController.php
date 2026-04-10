@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Requests\RegisterRequest;
 use App\Admin\Service\AuthService;
 use App\Http\Controllers\Controller;
 use Exception;
@@ -17,20 +18,13 @@ class AuthController extends Controller
     }
 
     // 📝 REGISTER
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
-            // dd('tilina');
-            $data = $request->only('name', 'email', 'password');
-
-            $result = $this->authService->register($data);
-
+            $result = $this->authService->register($request->validated());
             return response()->json($result, 201);
-
         } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 400);
+            return $this->parseException($e);
         }
     }
 
