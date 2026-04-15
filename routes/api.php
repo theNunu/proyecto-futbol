@@ -8,6 +8,12 @@ use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentTeamController;
 
+Route::get('/test', function () {
+    return response()->json([
+        'message' => 'API funcionando'
+    ]);
+});
+
 Route::prefix('tournaments')->group(function () {
     Route::get('', [TournamentController::class, 'index']);
     Route::get('/{tournament_id}', [TournamentController::class, 'show']);
