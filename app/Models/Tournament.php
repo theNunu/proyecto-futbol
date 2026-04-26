@@ -31,4 +31,9 @@ class Tournament extends Model
             'team_id'
         );
     }
+
+    public function seasons(): HasMany
+    {
+        return $this->hasMany(Season::class, 'tournament_id');
+    }
 }

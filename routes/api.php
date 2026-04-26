@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MenuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
+use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentTeamController;
@@ -30,6 +31,14 @@ Route::prefix('phases')->group(function () {
     Route::delete('/{phase_id}', [PhaseController::class, 'destroy']);
     Route::get('/{phase_id}', [PhaseController::class, 'show']);
     Route::get('/tournament/{tournament_id}', [PhaseController::class, 'getPhasesByTournamentId']);
+});
+
+Route::prefix('seasons')->group(function () {
+    Route::get('', [SeasonController::class, 'index']);
+    Route::get('/{season_id}', [SeasonController::class, 'show']);
+    Route::post('/', [SeasonController::class, 'store']);
+    Route::put('{season_id}', [SeasonController::class, 'update']);
+    Route::delete('/{season_id}', [SeasonController::class, 'destroy']);
 });
 
 
