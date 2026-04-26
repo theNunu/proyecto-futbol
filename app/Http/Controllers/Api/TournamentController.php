@@ -54,11 +54,14 @@ class TournamentController extends Controller
         }
     }
 
-    public function destroy(Tournament $tournament): JsonResponse
+    public function destroy( $tournament_id): JsonResponse
     {
-        $this->service->delete($tournament);
-
-        return response()->json(null, 204);
+         try {
+            $deleted = $this->service->delete($tournament_id);
+            return $this->respondOk($deleted);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
     }
 
     //     public function deactivate($role_id){

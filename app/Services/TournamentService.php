@@ -76,9 +76,20 @@ class TournamentService
         ]);
     }
 
-    public function delete(Tournament $tournament): void
+    public function delete($tournamentId)
     {
-        $this->repository->delete($tournament);
+
+        $tournament = $this->repository->findById($tournamentId);
+
+        if (!$tournament) {
+            throw new NotFoundHttpException('ID del Torneo no encontrada.');
+        }
+
+
+        // $this->repository->delete($tournament);
+
+        //     $producto = Producto::findOrFail($id); 
+        return $tournament->delete();
     }
     /*
         public function deactivate($roleId)

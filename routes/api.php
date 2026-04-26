@@ -2,6 +2,7 @@
 
 use App\Admin\Controllers\AuthController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\MenuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
 use App\Http\Controllers\Api\TeamController;
@@ -66,3 +67,13 @@ Route::prefix('catalogs')->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/menus', [MenuController::class, 'index']);
+Route::post('/menus', [MenuController::class, 'store']);
+
+Route::prefix('menus')->group(function () {
+
+    Route::get('', [MenuController::class, 'index']);
+    Route::post('', [MenuController::class, 'store']);
+
+});
