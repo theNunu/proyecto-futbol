@@ -52,7 +52,8 @@ class TournamentService
         return $tournament->only([
             'tournament_id',
             'name',
-            'season'
+            'season',
+            'season_id'
         ]);
     }
 
@@ -72,7 +73,7 @@ class TournamentService
         return $result->only([
             'tournament_id',
             'name',
-            'season'
+            'season_id'
         ]);
     }
 

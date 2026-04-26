@@ -31,6 +31,7 @@ class StoreTournamentRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'season' => 'required|string|max:50',
+            'season_id' => ['nullable', 'exists:season,season_id'],
         ];
     }
 

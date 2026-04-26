@@ -22,6 +22,7 @@ class TournamentRepository
         return Tournament::create([
             'name'     => $data['name'],
             'season'   => $data['season'],
+            'season_id'   => $data['season_id'],
         ]);
         // return Tournament::create($data);
     }
@@ -31,6 +32,7 @@ class TournamentRepository
         $tournament->update([
             'name'     => $data['name'],
             'season'   => $data['season'],
+            'season_id'   => $data['season_id'],
         ]);
         return $tournament;
     }
