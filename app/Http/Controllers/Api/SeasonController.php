@@ -56,9 +56,9 @@ class SeasonController extends Controller
         }
     }
 
-    public function destroy( $seasonId): JsonResponse
+    public function destroy($seasonId): JsonResponse
     {
-         try {
+        try {
             $deleted = $this->service->delete($seasonId);
             return $this->respondOk($deleted);
         } catch (\Exception $e) {
@@ -66,12 +66,13 @@ class SeasonController extends Controller
         }
     }
 
-    //     public function deactivate($role_id){
-    //     try {
-    //         $role = $this->roleService->deactivate($role_id);
-    //         return $this->respondOk($role);
-    //     } catch (\Exception $e) {
-    //         return $this->parseException($e);
-    //     }
-    // }
+    public function deactivate($seasonId)
+    {
+        try {
+            $role = $this->service->deactivate($seasonId);
+            return $this->respondOk($role);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
 }

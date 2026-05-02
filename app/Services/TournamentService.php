@@ -92,17 +92,6 @@ class TournamentService
         //     $producto = Producto::findOrFail($id); 
         return $tournament->delete();
     }
-    /*
-        public function deactivate($roleId)
-    {
-        $role = $this->roleRepository->find($roleId);
-
-        if (!$role) {
-            throw new NotFoundHttpException('Rol no encontrado.');
-        }
-
-        return $this->roleRepository->deactivate($role);
-    }
-    */
+    
 
 }

@@ -39,6 +39,7 @@ Route::prefix('seasons')->group(function () {
     Route::post('/', [SeasonController::class, 'store']);
     Route::put('{season_id}', [SeasonController::class, 'update']);
     Route::delete('/{season_id}', [SeasonController::class, 'destroy']);
+    Route::patch('/{season_id}', [SeasonController::class, 'deactivate']);
 });
 
 

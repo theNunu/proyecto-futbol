@@ -19,7 +19,8 @@ class SeasonService
             return [
                 'season_id' => $t->season_id,
                 'name' => $t->name,
-                'season' => $t->season
+                // 'season' => $t->season,
+                'active' => $t->active
             ];
         });
     }
@@ -40,6 +41,7 @@ class SeasonService
         return [
             'season_id' => $season->season_id,
             'name' => $season->name,
+            'active' => $season->active
             // 'season' => $season->season
         ];
 
@@ -82,7 +84,7 @@ class SeasonService
         $season = $this->repository->findById($seasonId);
 
         if (!$season) {
-            throw new NotFoundHttpException('ID del Torneo no encontrada.');
+            throw new NotFoundHttpException('ID de la Temporada no encontrada.');
         }
 
 
@@ -91,17 +93,18 @@ class SeasonService
         //     $producto = Producto::findOrFail($id); 
         return $season->delete();
     }
-    /*
-        public function deactivate($roleId)
-    {
-        $role = $this->roleRepository->find($roleId);
 
-        if (!$role) {
-            throw new NotFoundHttpException('Rol no encontrado.');
+    public function deactivate($seasonId)
+    {
+        $season = $this->repository->findById($seasonId);
+
+        if (!$season) {
+              throw new NotFoundHttpException('ID de la Temporada no encontrada.');
         }
 
-        return $this->roleRepository->deactivate($role);
+        return $this->repository->deactivate($season);
     }
-    */
+    
+
 
 }

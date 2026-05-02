@@ -41,15 +41,10 @@ class SeasonRepository
         $season->delete();
     }
 
-    /*
-        public function deactivate(Role $role)
+     public function deactivate(Season $season)
     {
-        $role->is_active = false;
-        $role->updated_by = $this->userIdAccion;
-        $role->save();
-        return $role;
+        // Alternar el valor (si es true pasa a false, y viceversa)
+        $season->active = !$season->active;
+        return $season->save();
     }
-
-
-    */
 }
