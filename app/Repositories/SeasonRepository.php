@@ -22,7 +22,7 @@ class SeasonRepository
     {
         return Season::create([
             'name' => $data['name'],
-            'active' => $data['active'],
+            'active' => $data['active'] ?? true,
         ]);
         // return Tournament::create($data);
     }
