@@ -78,8 +78,8 @@ Route::prefix('catalogs')->group(function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/menus', [MenuController::class, 'index']);
-Route::post('/menus', [MenuController::class, 'store']);
+// Route::get('/menus', [MenuController::class, 'index']);
+// Route::post('/menus', [MenuController::class, 'store']);
 
 Route::prefix('menus')->group(function () {
 

@@ -34,6 +34,7 @@ class Menu extends Model
      */
     public function allChildren(): HasMany
     {
+        // Llama a la relación base, pero le dice: "Carga también mi propio método"
         return $this->children()->with('allChildren');
     }
 
