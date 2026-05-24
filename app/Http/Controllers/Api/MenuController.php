@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeMenuRequest;
 use App\Http\Requests\MenuRequest;
 use App\Services\MenuService;
 use Illuminate\Http\JsonResponse;
@@ -32,6 +33,16 @@ class MenuController extends Controller
     {
         try {
             $item = $this->menuService->storeMenu($request->validated());
+            return $this->respondOk($item);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
+
+    public function changePosition(ChangeMenuRequest $request,int $menuId): JsonResponse
+    {
+        try {
+            $item = $this->menuService->changePosition($request->validated(), $menuId);
             return $this->respondOk($item);
         } catch (\Exception $e) {
             return $this->parseException($e);

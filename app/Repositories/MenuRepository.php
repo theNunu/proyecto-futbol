@@ -15,6 +15,7 @@ class MenuRepository
         return Menu::with('allChildren')
             ->whereNull('parent_id') // Solo los padres principales
             ->orderBy('order')
+            ->orderBy('name', 'asc')
             ->get();
     }
 

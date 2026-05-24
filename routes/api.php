@@ -85,5 +85,6 @@ Route::prefix('menus')->group(function () {
 
     Route::get('', [MenuController::class, 'index']);
     Route::post('', [MenuController::class, 'store']);
+    Route::put('{menu_id}', [MenuController::class, 'changePosition']);
 
 });
