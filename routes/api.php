@@ -3,6 +3,7 @@
 use App\Admin\Controllers\AuthController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MenuController;
+use App\Http\Controllers\Api\ModuleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
 use App\Http\Controllers\Api\SeasonController;
@@ -86,5 +87,13 @@ Route::prefix('menus')->group(function () {
     Route::get('', [MenuController::class, 'index']);
     Route::post('', [MenuController::class, 'store']);
     Route::put('{menu_id}', [MenuController::class, 'changePosition']);
+
+});
+
+Route::prefix('modules')->group(function () {
+
+    Route::get('', [ModuleController::class, 'index']);
+    Route::post('', [ModuleController::class, 'store']);
+    // Route::put('{menu_id}', [MenuController::class, 'changePosition']);
 
 });
