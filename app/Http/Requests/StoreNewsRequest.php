@@ -27,7 +27,8 @@ class StoreNewsRequest extends FormRequest
             'summary' => 'nullable|string|max:20', // Debe existir en la misma tabla
             'description' => 'required|string|max:35',
             'begin_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d|after:begin_date',
+            'end_date' => 'required|date_format:Y-m-d',
+            // 'end_date' => 'required|date_format:Y-m-d|after:begin_date',
         ];
     }
 
