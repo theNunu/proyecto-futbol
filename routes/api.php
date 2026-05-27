@@ -4,6 +4,7 @@ use App\Admin\Controllers\AuthController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
+use App\Http\Controllers\Api\NewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
 use App\Http\Controllers\Api\SeasonController;
@@ -97,3 +98,9 @@ Route::prefix('modules')->group(function () {
     // Route::put('{menu_id}', [MenuController::class, 'changePosition']);
 
 });
+
+Route::prefix('news')->group(function () {
+    Route::get('', [NewsController::class, 'index']);
+    Route::post('', [NewsController::class, 'store']);
+});
+
