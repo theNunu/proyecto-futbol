@@ -23,8 +23,8 @@ class StoreNewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:10',
-            'summary' => 'nullable|string|max:20', // Debe existir en la misma tabla
+            'title' => 'required|string|max:30',
+            'summary' => 'nullable|string|max:30', // Debe existir en la misma tabla
             'description' => 'required|string|max:35',
             'begin_date' => 'required|date_format:Y-m-d',
             'end_date' => 'required|date_format:Y-m-d',
