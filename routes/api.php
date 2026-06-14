@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentTeamController;
+use App\Erp\Controllers\TransaccionController;
 
 Route::get('/test', function () {
     return response()->json([
@@ -102,5 +103,10 @@ Route::prefix('modules')->group(function () {
 Route::prefix('news')->group(function () {
     Route::get('', [NewsController::class, 'index']);
     Route::post('', [NewsController::class, 'store']);
+});
+
+Route::prefix('transacciones')->group(function () {
+    Route::get('', [TransaccionController::class, 'index']);
+    // Route::post('', [NewsController::class, 'store']);
 });
 
