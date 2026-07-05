@@ -1,6 +1,7 @@
 <?php
 
 use App\Admin\Controllers\AuthController;
+use App\Erp\Controllers\RubroController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
@@ -102,11 +103,23 @@ Route::prefix('modules')->group(function () {
 
 Route::prefix('news')->group(function () {
     Route::get('', [NewsController::class, 'index']);
+    Route::get('{news_id}', [NewsController::class, 'getById']);
     Route::post('', [NewsController::class, 'store']);
+    Route::put('{news_id}', [NewsController::class, 'update']);
 });
 
 Route::prefix('transacciones')->group(function () {
     Route::get('', [TransaccionController::class, 'index']);
+    Route::post('', [TransaccionController::class, 'store']);
     // Route::post('', [NewsController::class, 'store']);
 });
+
+Route::prefix('rubros')->group(function () {
+    Route::get('', [RubroController::class, 'index']);
+    Route::get('{rubro_id}', [RubroController::class, 'getById']);
+    Route::post('', [RubroController::class, 'store']);
+    Route::put('{rubro_id}', [RubroController::class, 'update']);
+});
+
+
 
