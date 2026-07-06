@@ -69,7 +69,7 @@ class FinancieroService
 
             $this->repository->registrarHistorialSaldo($payloadSaldo);
 
-            return $transaccionGuardada;
+            return $transaccionGuardada->load(['rubro', 'tipoPago', 'historialSaldo']);
         });
     }
 }

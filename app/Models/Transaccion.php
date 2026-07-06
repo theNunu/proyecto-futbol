@@ -39,16 +39,18 @@ class Transaccion extends Model
 
     public function rubro(): BelongsTo
     {
-        return $this->belongsTo(Rubro::class);
+        return $this->belongsTo(Rubro::class, 'rubro_id');
     }
 
     public function tipoPago(): BelongsTo
     {
-        return $this->belongsTo(TipoPago::class);
+        return $this->belongsTo(TipoPago::class,'tipo_pago_id');
     }
 
     public function historialSaldo(): HasOne
     {
-        return $this->hasOne(HistorialSaldo::class);
+        return $this->hasOne(HistorialSaldo::class, 'transaccion_id');
     }
+
+    
 }

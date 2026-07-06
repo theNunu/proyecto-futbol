@@ -2,17 +2,18 @@
 
 use App\Admin\Controllers\AuthController;
 use App\Erp\Controllers\RubroController;
+use App\Erp\Controllers\TipoPagoController;
+use App\Erp\Controllers\TransaccionController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\NewsController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PhaseController;
 use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentTeamController;
-use App\Erp\Controllers\TransaccionController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     return response()->json([
@@ -121,5 +122,11 @@ Route::prefix('rubros')->group(function () {
     Route::put('{rubro_id}', [RubroController::class, 'update']);
 });
 
+Route::prefix('tipo-pagos')->group(function () {
+    Route::get('', [TipoPagoController::class, 'index']);
+    Route::get('{tipo_pago_id}', [TipoPagoController::class, 'getById']);
+    Route::post('', [TipoPagoController::class, 'store']);
+    Route::put('{tipo_pago_id}', [TipoPagoController::class, 'update']);
+});
 
 

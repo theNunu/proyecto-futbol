@@ -10,7 +10,7 @@ class TipoPago extends Model
 {
     use HasFactory;
 
-    protected $table = 'tipos_pagos';
+    protected $table = 'tipo_pagos';
     protected $primaryKey = 'tipo_pago_id';
 
     protected $fillable = [

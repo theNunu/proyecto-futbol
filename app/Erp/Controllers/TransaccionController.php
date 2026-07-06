@@ -16,7 +16,7 @@ class TransaccionController extends Controller
         $this->financieroService = $financieroService;
     }
 
-    public function store(StoreTransaccionRequest $request): JsonResponse
+    public function store(StoreTransaccionRequest $request)
     {
 
     // dd("oui");
