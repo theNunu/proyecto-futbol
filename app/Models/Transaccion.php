@@ -25,6 +25,7 @@ class Transaccion extends Model
         'monto_comision',
         'monto_neto',
         'fecha_transaccion',
+        'nombre_rubro'
     ];
 
     // casts para asegurar que Laravel maneje estos valores siempre como flotantes/strings numéricos exactos en PHP
