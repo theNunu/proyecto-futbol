@@ -19,7 +19,8 @@ class StoreTransaccionRequest extends FormRequest
             'rubro_id' => 'required|exists:rubros,rubro_id',
             'tipo_pago_id' => 'required|exists:tipo_pagos,tipo_pago_id',
             'descripcion' => 'required|string|max:255',
-            'tipo' => 'required|in:ingreso,egreso,abono',
+            // 'tipo' => 'required|in:ingreso,egreso,abono',
+            'tipo' => 'required|string|max:55',
             'monto_bruto' => 'required|numeric|min:0.01',
             'fecha_transaccion' => 'required|date',
         ];

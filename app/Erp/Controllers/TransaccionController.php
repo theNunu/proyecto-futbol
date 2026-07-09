@@ -4,22 +4,27 @@ namespace App\Erp\Controllers;
 
 use App\Erp\Requests\StoreTransaccionRequest;
 use App\Erp\Services\FinancieroService;
+use App\Erp\Services\TransaccionService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Exception;
+use Illuminate\Http\JsonResponse;
+
 class TransaccionController extends Controller
 {
     protected $financieroService;
+
+    protected $transaccionService;
     // Inyectamos el servicio financiero en el constructor
-    public function __construct(FinancieroService $financieroService)
+    public function __construct(FinancieroService $financieroService, TransaccionService $transaccionService)
     {
         $this->financieroService = $financieroService;
+        $this->transaccionService = $transaccionService;
     }
 
     public function store(StoreTransaccionRequest $request)
     {
 
-    // dd("oui");
+        // dd("oui");
         try {
             // El request->validated() nos devuelve un ARRAY limpio de PHP con los datos seguros
             $datosValidados = $request->validated();
@@ -30,6 +35,31 @@ class TransaccionController extends Controller
         } catch (Exception $e) {
             return $this->parseException($e);
         }
+    }
+
+
+    public function index()
+    {
+
+        // dd("oui");
+        try {
+            $news = $this->transaccionService->getTransaccions();
+            return $this->respondOk($news, "Transacciones obtenidas exitosamente");
+        } catch (Exception $e) {
+            return $this->parseException($e);
+        }
+    }
+
+    public function getRubroRendimiento()
+    {
+
+        try {
+            $news = $this->transaccionService->getRubroRendimiento();
+            return $this->respondOk($news, "Rubro obtenidas exitosamente");
+        } catch (Exception $e) {
+            return $this->parseException($e);
+        }
+
     }
 
     // public function store(StoreTransaccionRequest $request): JsonResponse
@@ -47,10 +77,10 @@ class TransaccionController extends Controller
 
 
     // GET: Obtener el árbol del menú
-    public function index()
-    {
-        return "perfavore";
-    }
+    // public function index()
+    // {
+    //     return "perfavore";
+    // }
 
 
 }

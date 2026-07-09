@@ -29,11 +29,20 @@ class FinancieroService
             $tipoPago = TipoPago::findOrFail($dataCruda['tipo_pago_id']);
 
             $montoBruto = (float) $dataCruda['monto_bruto'];
-// dd("mi rubro", $rubro->nombre);
+            // dd("mi rubro", $rubro->nombre);
             $rubroName = $rubro->nombre;
-
-                // 2. Cálculos financieros utilizando arrays/variables en memoria
-                $impuesto = $montoBruto * ($rubro->porcentaje_impuesto / 100);
+            // dd(
+            //     $montoBruto,
+            //     $dataCruda['monto_bruto'],
+            //     "rubro porcenaje impuesto:",
+            //     $rubro->porcentaje_impuesto,
+            //     "rubro porcenaje retencion:",
+            //     $rubro->porcentaje_retencion,
+            //     "tipo pago porcetaje comision: ",
+            //     $tipoPago->porcentaje_comision
+            // );
+            // 2. Cálculos financieros utilizando arrays/variables en memoria
+            $impuesto = $montoBruto * ($rubro->porcentaje_impuesto / 100);
             $retencion = $montoBruto * ($rubro->porcentaje_retencion / 100);
             $comision = $montoBruto * ($tipoPago->porcentaje_comision / 100);
 
@@ -42,11 +51,15 @@ class FinancieroService
             if ($dataCruda['tipo'] === 'ingreso' || $dataCruda['tipo'] === 'abono') {
                 $montoNeto = $montoBruto + $impuesto - $retencion - $comision;
                 $movimientoSaldo = $montoNeto; // Sumará al saldo general
-            } elseif ($dataCruda['tipo'] === 'egreso') {
+            } 
+
+            if ($dataCruda['tipo'] === 'egreso') {
                 // Si es Egreso: Pagas el bruto más el impuesto que te cobran, menos lo que tú le retienes a tu proveedor
                 $montoNeto = $montoBruto + $impuesto - $retencion;
                 $movimientoSaldo = -$montoNeto; // Restará del saldo general
-            } else {
+            } 
+            
+            if($dataCruda['tipo'] !== 'ingreso' && $dataCruda['tipo'] !== 'abono' && $dataCruda['tipo'] !== 'egreso'){
                 throw new \InvalidArgumentException('El tipo debe ser INGRESO, EGRESO o ABONO');
             }
 

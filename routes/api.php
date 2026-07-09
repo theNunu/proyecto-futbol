@@ -111,6 +111,7 @@ Route::prefix('news')->group(function () {
 
 Route::prefix('transacciones')->group(function () {
     Route::get('', [TransaccionController::class, 'index']);
+    Route::get('rubro-rendimiento', [TransaccionController::class, 'getRubroRendimiento']);
     Route::post('', [TransaccionController::class, 'store']);
     // Route::post('', [NewsController::class, 'store']);
 });
