@@ -69,10 +69,23 @@ class TransaccionService
         ];
         $allRubros[] = $newObject;
         // dd("lass tranacciones", $userRow);
+        $rubroConTransacciones = [];
+        foreach ($allRubros as $myRubro) {
+            // dd($myRubro);
+            $myRubro[] = $los;
+
+            // 'fecha_conexion' => now()->toDateTimeString(),
+            // 'dispositivo' => 'Móvil',
+
+            $rubroConTransacciones[] = $myRubro;
+            // $allRubros[] = $newObject;
+        }
+
         return [
             $allRubros,
-            "rubro existe " => $rubrosExistentes,
-            "extraterrestres" => $los
+            // "rubro existe " => $rubrosExistentes,
+            // "extraterrestres" => $los,
+            "rubro con transacciones" => $rubroConTransacciones
             // "cada transaccion" => $userRow
         ];
         // return $users;
