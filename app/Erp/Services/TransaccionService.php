@@ -61,36 +61,72 @@ class TransaccionService
         }
 
 
-        Log::info('todos los rubros', [$los]);
+        // Log::info('todos los rubros', [$los]);
 
-        $newObject = [
-            'fecha_conexion' => now()->toDateTimeString(),
-            'dispositivo' => 'Móvil',
-        ];
-        $allRubros[] = $newObject;
+        // $newObject = [
+        //     'fecha_conexion' => now()->toDateTimeString(),
+        //     'dispositivo' => 'Móvil',
+        // ];
+        // $allRubros[] = $newObject;
         // dd("lass tranacciones", $userRow);
-        $rubroConTransacciones = [];
-        // $myRubro = [];
-        foreach ($allRubros as $myRubro[]) {
-        $temporalRubro = $myRubro[0];
-        $temporalRubro->rubro_id;
-            dd($myRubro, $los, $myRubro[0], $myRubro, $temporalRubro ,$temporalRubro->rubro_id);
-            dd($myRubro[0]);
-            $myRubro[] = $los;
-            
 
+        // $myRubro = [];
+        $rubrosParaComparar = [];
+
+        foreach ($los as $item) { //obtner transacciones con sus rubros para validacion
+
+            // 2. Ahora sí, cada $item contiene la llave 'children'
+            foreach ($item['children'] as $transaccion) {
+
+                // 3. Guardas el rubro_id usando corchetes
+                $rubrosParaComparar[] = $transaccion['rubro_id'];
+            }
+        }
+        // dd($rubrosParaComparar);
+        $resultado = collect($rubrosParaComparar)->unique()->values()->all();
+
+        // dd($resultado); // Esto te devolverá: [1, 2, 3]
+
+        $rubroConTransacciones = [];
+        $rubrosDeTransaccion = [];
+        // dd($allRubros);
+        $losRubros = [];
+        foreach ($allRubros as $myRubro) {
+            // $temporalRubro = $myRubro[0];
+// dd($temporalRubro);
+            $myRubro->rubro_id;
+            // dd($los);
+            Log::info('Usuario procesado con éxito', ['el rubro join' => $myRubro]);
+            // dd($myRubro, $los, $myRubro[0], $myRubro, $temporalRubro ,$temporalRubro->rubro_id);
+            // dd($myRubro[0]);
+            foreach ($resultado as $rubroIndividual) {
+                // dd("rubro individual : ",$rubroIndividual);
+                $rubroConsuTrans = Transaccion::where('rubro_id', $rubroIndividual)->get();
+                // $rubroConsuTrans = Transaccion::firstwhere('rubro_id', $rubroIndividual);
+                // $rubroConsuTrans =  Transaccion::where('rubro_id', $)
+                Log::info('Usuario procesado con éxito', ['el rubro individual' => $rubroIndividual]);
+                if ($myRubro->rubro_id == $rubroIndividual) {
+                    $rubrosDeTransaccion[] = $rubroConsuTrans;
+
+                }
+
+            }
+
+            $losRubros[] = $rubrosDeTransaccion;
             // 'fecha_conexion' => now()->toDateTimeString(),
             // 'dispositivo' => 'Móvil',
-
-            $rubroConTransacciones[] = $myRubro;
+            $rubroConTransacciones[] = $losRubros;
             // $allRubros[] = $newObject;
         }
-
+        // return $rubrosParaComparar;
+        // dd($rubrosParaComparar, $rubrosDeTransaccion);
+        // $diddy = Transaccion::where('rubro_id', 2)->get();
+        // dd($rubroConTransacciones);
         return [
             $allRubros,
             // "rubro existe " => $rubrosExistentes,
             // "extraterrestres" => $los,
-            "rubro con transacciones" => $rubroConTransacciones
+            "rubro con transacciones" => $losRubros
             // "cada transaccion" => $userRow
         ];
         // return $users;
