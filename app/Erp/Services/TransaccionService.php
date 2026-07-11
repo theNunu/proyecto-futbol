@@ -29,15 +29,15 @@ class TransaccionService
     public function getRubroRendimiento()
     {
         // return "eso lisin";
-        $results = DB::table('rubros')
+        $allRubros = DB::table('rubros')
             ->join('transaccions', 'rubros.rubro_id', '=', 'transaccions.rubro_id')
             ->select('rubros.rubro_id', 'rubros.nombre', DB::raw('COUNT(transaccions.transaccion_id) as total_transacciones'))
             ->groupBy('rubros.rubro_id', 'rubros.nombre')
             ->get();
-            
-        $rubrosExistentes = $results->pluck('rubro_id');
+
+        $rubrosExistentes = $allRubros->pluck('rubro_id');
         // dd($rubrosExistentes);
-        $los =  [];
+        $los = [];
         foreach ($rubrosExistentes as $rubroId) {
 
             $rubro = Rubro::findOrFail($rubroId);
@@ -58,76 +58,19 @@ class TransaccionService
                     ];
                 })
             ];
-            // $rubro = [];
-            // $rubroId = null;
-
         }
 
 
         Log::info('todos los rubros', [$los]);
-        // return $results;
-        // $transacciones = Transaccion::where('rubro_id')->get();
 
-        // $trans = DB::table('transaccions')
-        //     ->join('rubros', 'rubros.rubro_id', '=', 'transaccions.rubro_id')
-        //     ->get();
-        // $myTransaccion = [];
-        // // dd($trans);
-        // foreach ($trans as $userId => $userRow) {
-
-        //     // El conteo se saca contando los elementos agrupados en la colección
-        //     // $totalPosts = $userRow->count();
-        //     // $totalPosts = collect($userRow); 
-        //     // $userName = $userRow->first()->user_name;
-        //     //  dd($userCollection);
-        //     $userCollection = collect($userRow);
-        //     // $userName = "la transaccion: ";
-        //     // dd($userRow);
-
-        //     foreach ($userRow as $row) {
-        //         //  dd($userRow, "la row:", $row);
-        //         // echo "- Post: " . $row->descripcion . "<br>";
-        //         $myTransaccion = $row;
-        //     }
-
-
-        //     // foreach ($userRow as $row) {
-        //     //     echo "- Post: " . $row->title . "<br>";
-        //     // }
-        // }
-// El arreglo completo debe abrirse con [ y cerrarse con ]
-        // $datos = [
-        //     "children" => $this->rubros->transacciones->map(function ($transaccion) {
-        //         return [
-        //             'id' => $transaccion->id,
-        //             'monto' => $transaccion->monto, // Cambia por tus columnas reales
-        //             'descripcion' => $transaccion->descripcion,
-        //             'created_at' => $transaccion->created_at,
-        //             'updated_at' => $transaccion->updated_at,
-        //         ];
-        //     })
-        // ];
-
-        //       // 2. Aquí inyectamos cada transacción como si fuera su "hijo" (children)
-        //         'children' => $this->transacciones->map(function ($transaccion) {
-        //             return [
-        //                 'id' => $transaccion->id,
-        //                 'monto' => $transaccion->monto, // Cambia por tus columnas reales
-        //                 'descripcion' => $transaccion->descripcion,
-        //                 'created_at' => $transaccion->created_at,
-        //                 'updated_at' => $transaccion->updated_at,
-        //          ];
-        //         }),
-        //     ;
-        // }
         $newObject = [
             'fecha_conexion' => now()->toDateTimeString(),
             'dispositivo' => 'Móvil',
         ];
-        $results[] = $newObject;
+        $allRubros[] = $newObject;
         // dd("lass tranacciones", $userRow);
         return [
-            $results,
+            $allRubros,
             "rubro existe " => $rubrosExistentes,
             "extraterrestres" => $los
             // "cada transaccion" => $userRow
