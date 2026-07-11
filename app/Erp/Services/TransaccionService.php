@@ -70,9 +70,14 @@ class TransaccionService
         $allRubros[] = $newObject;
         // dd("lass tranacciones", $userRow);
         $rubroConTransacciones = [];
-        foreach ($allRubros as $myRubro) {
-            // dd($myRubro);
+        // $myRubro = [];
+        foreach ($allRubros as $myRubro[]) {
+        $temporalRubro = $myRubro[0];
+        $temporalRubro->rubro_id;
+            dd($myRubro, $los, $myRubro[0], $myRubro, $temporalRubro ,$temporalRubro->rubro_id);
+            dd($myRubro[0]);
             $myRubro[] = $los;
+            
 
             // 'fecha_conexion' => now()->toDateTimeString(),
             // 'dispositivo' => 'Móvil',
