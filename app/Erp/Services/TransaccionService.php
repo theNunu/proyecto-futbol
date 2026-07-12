@@ -3,6 +3,7 @@
 namespace App\Erp\Services;
 
 use App\Erp\Repositories\Contracts\TransaccionRepositoryInterface;
+use App\Models\HistorialSaldo;
 use App\Models\Rubro;
 use App\Models\TipoPago;
 use App\Models\Transaccion;
@@ -12,14 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Log;
 class TransaccionService
 {
-    // protected $repository;
-
-    // public function __construct(TransaccionRepositoryInterface $repository)
-    // {
-    //     $this->repository = $repository;
-    // }
-
-
     public function getTransaccions()
     {
         return Transaccion::get();
@@ -40,10 +33,23 @@ class TransaccionService
 
         // 4. Usamos 'map' para formatear la respuesta exactamente como la quieres entregar
         $resultado = $rubros->map(function ($rubro) {
+
+            // --- AQUÍ OBTENEMOS EL ÚLTIMO REGISTRO DE TRANSACCIÓN PARA ESTE RUBRO ESPECÍFICO ---
+            // Filtramos por el rubro actual y ordenamos descendentemente por la llave primaria de la transacción
+            $ultimaTransaccion = \App\Models\Transaccion::where('rubro_id', $rubro->rubro_id)
+                ->orderByDesc('transaccion_id')
+                ->first();
+            $historialSaldo = HistorialSaldo::where('transaccion_id', $ultimaTransaccion->transaccion_id)->first();
+            // dd($ultimaTransaccion);
             return [
                 'rubro_id' => $rubro->rubro_id,
                 'nombre' => $rubro->nombre,
                 'totalTransacciones' => $rubro->transacciones_count, // Generado por withCount
+
+                // Si necesitas mostrar datos de ese último registro a nivel de Rubro, puedes mapearlos aquí:
+                'ultimoUsoId' => $ultimaTransaccion ? $ultimaTransaccion->transaccion_id : null,
+                'ultimoUsoDescripcion' => $ultimaTransaccion ? $ultimaTransaccion->descripcion : 'Sin transacciones',
+                'saldoPosterior' => $historialSaldo->saldo_posterior,
 
                 // Transformamos las transacciones para inyectarles el número de índice correlativo
                 'children' => $rubro->transacciones->map(function ($transaccion, $key) {
@@ -58,13 +64,16 @@ class TransaccionService
                         'montoComision' => $transaccion->monto_comision,
                         'montoNeto' => $transaccion->monto_neto,
                     ];
-
+                    //   $ultimoUso  =Transaccion::latest($transaccion->rubro_id)->first(),
+    
                 }),
+                //  $ultimoUso  =Transaccion::latest($transaccion->rubro_id)->first();
+                // HistorialSaldo
 
                 // --- NUEVA PROPIEDAD: Totales finales como un arreglo con un objeto dentro ---
-                'totalesNinales' => [
+                'totalesFinales' => [
                     [
-                        'esTotal' => true,
+                        // 'esTotal' => true,
                         'totalMontoBruto' => $rubro->transacciones->sum('monto_bruto'),
                         'totalMontoImpuesto' => $rubro->transacciones->sum('monto_impuesto'),
                         'totalMontoRetencion' => $rubro->transacciones->sum('monto_retencion'),
@@ -75,13 +84,6 @@ class TransaccionService
             ];
         });
         return $resultado;
-        // // 5. Retornamos la estructura limpia para tu respuesta JSON
-        // return response()->json([
-        //     'status_code' => 200,
-        //     'success' => true,
-        //     'message' => 'Rubros obtenidos exitosamente',
-        //     'data' => $resultado
-        // ]);
     }
 
 
