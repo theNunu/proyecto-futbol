@@ -28,108 +28,48 @@ class TransaccionService
 
     public function getRubroRendimiento()
     {
-        // return "eso lisin";
-        $allRubros = DB::table('rubros')
-            ->join('transaccions', 'rubros.rubro_id', '=', 'transaccions.rubro_id')
-            ->select('rubros.rubro_id', 'rubros.nombre', DB::raw('COUNT(transaccions.transaccion_id) as total_transacciones'))
-            ->groupBy('rubros.rubro_id', 'rubros.nombre')
+        // 1. Cargamos el modelo Rubro con su conteo y sus relaciones mapeadas de golpe
+        $rubros = Rubro::withCount('transacciones') //withcount crea el campo transacciones_count
+            ->with([
+                'transacciones' => function ($query) {
+                    $query->select('transaccion_id', 'descripcion', 'rubro_id', 'tipo', 'monto_bruto', 'monto_impuesto', 'monto_retencion', 'monto_comision', 'monto_neto');
+                    // si no esta en el select abajo aparecera nulo
+                }
+            ])
             ->get();
 
-        $rubrosExistentes = $allRubros->pluck('rubro_id');
-        // dd($rubrosExistentes);
-        $los = [];
-        foreach ($rubrosExistentes as $rubroId) {
+        // 4. Usamos 'map' para formatear la respuesta exactamente como la quieres entregar
+        $resultado = $rubros->map(function ($rubro) {
+            return [
+                'rubro_id' => $rubro->rubro_id,
+                'nombre' => $rubro->nombre,
+                'total_transacciones' => $rubro->transacciones_count, // Generado por withCount
 
-            $rubro = Rubro::findOrFail($rubroId);
-            Log::info('Usuario procesado con éxito', ['el rubro' => $rubro]);
-
-            // NOTA EL '[]': Esto agrega el nuevo rubro al arreglo sin borrar los anteriores
-            $los[] = [
-                "children" => $rubro->transacciones->map(function ($transaccion) {
+                // Transformamos las transacciones para inyectarles el número de índice correlativo
+                'children' => $rubro->transacciones->map(function ($transaccion, $key) {
                     return [
+                        'numero_item' => $key + 1, // El índice inicia en 0, sumamos 1 para que empiece en 1
                         'transaccion_id' => $transaccion->transaccion_id,
-                        'descripcion' => $transaccion->descripcion, // Cambia por tus columnas reales
+                        'descripcion' => $transaccion->descripcion,
                         'rubro_id' => $transaccion->rubro_id,
                         'tipo' => $transaccion->tipo,
                         'monto_bruto' => $transaccion->monto_bruto,
                         'monto_retencion' => $transaccion->monto_retencion,
-                        // 'created_at' => $transaccion->created_at,
-                        // 'updated_at' => $transaccion->updated_at,
+                        'monto_comision' => $transaccion->monto_comision,
+                        'monto_neto' => $transaccion->monto_neto,
                     ];
                 })
             ];
-        }
-
-
-        // Log::info('todos los rubros', [$los]);
-
-        // $newObject = [
-        //     'fecha_conexion' => now()->toDateTimeString(),
-        //     'dispositivo' => 'Móvil',
-        // ];
-        // $allRubros[] = $newObject;
-        // dd("lass tranacciones", $userRow);
-
-        // $myRubro = [];
-        $rubrosParaComparar = [];
-
-        foreach ($los as $item) { //obtner transacciones con sus rubros para validacion
-
-            // 2. Ahora sí, cada $item contiene la llave 'children'
-            foreach ($item['children'] as $transaccion) {
-
-                // 3. Guardas el rubro_id usando corchetes
-                $rubrosParaComparar[] = $transaccion['rubro_id'];
-            }
-        }
-        // dd($rubrosParaComparar);
-        $resultado = collect($rubrosParaComparar)->unique()->values()->all();
-
-        // dd($resultado); // Esto te devolverá: [1, 2, 3]
-
-        $rubroConTransacciones = [];
-        $rubrosDeTransaccion = [];
-        // dd($allRubros);
-        $losRubros = [];
-        foreach ($allRubros as $myRubro) {
-            // $temporalRubro = $myRubro[0];
-// dd($temporalRubro);
-            $myRubro->rubro_id;
-            // dd($los);
-            Log::info('Usuario procesado con éxito', ['el rubro join' => $myRubro]);
-            // dd($myRubro, $los, $myRubro[0], $myRubro, $temporalRubro ,$temporalRubro->rubro_id);
-            // dd($myRubro[0]);
-            foreach ($resultado as $rubroIndividual) {
-                // dd("rubro individual : ",$rubroIndividual);
-                $rubroConsuTrans = Transaccion::where('rubro_id', $rubroIndividual)->get();
-                // $rubroConsuTrans = Transaccion::firstwhere('rubro_id', $rubroIndividual);
-                // $rubroConsuTrans =  Transaccion::where('rubro_id', $)
-                Log::info('Usuario procesado con éxito', ['el rubro individual' => $rubroIndividual]);
-                if ($myRubro->rubro_id == $rubroIndividual) {
-                    $rubrosDeTransaccion[] = $rubroConsuTrans;
-
-                }
-
-            }
-
-            $losRubros[] = $rubrosDeTransaccion;
-            // 'fecha_conexion' => now()->toDateTimeString(),
-            // 'dispositivo' => 'Móvil',
-            $rubroConTransacciones[] = $losRubros;
-            // $allRubros[] = $newObject;
-        }
-        // return $rubrosParaComparar;
-        // dd($rubrosParaComparar, $rubrosDeTransaccion);
-        // $diddy = Transaccion::where('rubro_id', 2)->get();
-        // dd($rubroConTransacciones);
-        return [
-            $allRubros,
-            // "rubro existe " => $rubrosExistentes,
-            // "extraterrestres" => $los,
-            "rubro con transacciones" => $losRubros
-            // "cada transaccion" => $userRow
-        ];
-        // return $users;
-
+        });
+        return $resultado;
+        // // 5. Retornamos la estructura limpia para tu respuesta JSON
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'success' => true,
+        //     'message' => 'Rubros obtenidos exitosamente',
+        //     'data' => $resultado
+        // ]);
     }
+
+
 }
