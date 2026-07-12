@@ -43,22 +43,35 @@ class TransaccionService
             return [
                 'rubro_id' => $rubro->rubro_id,
                 'nombre' => $rubro->nombre,
-                'total_transacciones' => $rubro->transacciones_count, // Generado por withCount
+                'totalTransacciones' => $rubro->transacciones_count, // Generado por withCount
 
                 // Transformamos las transacciones para inyectarles el número de índice correlativo
                 'children' => $rubro->transacciones->map(function ($transaccion, $key) {
                     return [
-                        'numero_item' => $key + 1, // El índice inicia en 0, sumamos 1 para que empiece en 1
-                        'transaccion_id' => $transaccion->transaccion_id,
+                        'indice' => $key + 1, // El índice inicia en 0, sumamos 1 para que empiece en 1
+                        'transaccionId' => $transaccion->transaccion_id,
                         'descripcion' => $transaccion->descripcion,
-                        'rubro_id' => $transaccion->rubro_id,
+                        'rubroId' => $transaccion->rubro_id,
                         'tipo' => $transaccion->tipo,
-                        'monto_bruto' => $transaccion->monto_bruto,
-                        'monto_retencion' => $transaccion->monto_retencion,
-                        'monto_comision' => $transaccion->monto_comision,
-                        'monto_neto' => $transaccion->monto_neto,
+                        'montoBruto' => $transaccion->monto_bruto,
+                        'montoRetencion' => $transaccion->monto_retencion,
+                        'montoComision' => $transaccion->monto_comision,
+                        'montoNeto' => $transaccion->monto_neto,
                     ];
-                })
+
+                }),
+
+                // --- NUEVA PROPIEDAD: Totales finales como un arreglo con un objeto dentro ---
+                'totalesNinales' => [
+                    [
+                        'esTotal' => true,
+                        'totalMontoBruto' => $rubro->transacciones->sum('monto_bruto'),
+                        'totalMontoImpuesto' => $rubro->transacciones->sum('monto_impuesto'),
+                        'totalMontoRetencion' => $rubro->transacciones->sum('monto_retencion'),
+                        'totalMontoComision' => $rubro->transacciones->sum('monto_comision'),
+                        'totalMontoNeto' => $rubro->transacciones->sum('monto_neto'),
+                    ]
+                ]
             ];
         });
         return $resultado;
