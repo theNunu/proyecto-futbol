@@ -5,6 +5,8 @@ namespace App\Erp\Repositories\Eloquent;
 use App\Erp\Repositories\Contracts\TransaccionRepositoryInterface;
 use App\Models\Transaccion;
 use App\Models\HistorialSaldo;
+// use SimplePie\Cache\DB;
+use Illuminate\Support\Facades\DB;
 // use App\Repositories\Contracts\TransaccionRepositoryInterface;
 
 class TransaccionRepository implements TransaccionRepositoryInterface
@@ -26,5 +28,11 @@ class TransaccionRepository implements TransaccionRepositoryInterface
     public function registrarHistorialSaldo(array $datosSaldo): HistorialSaldo
     {
         return HistorialSaldo::create($datosSaldo);
+    }
+
+       public function buscarEnBaseDeDatos(?int $id = null): array
+    {
+        // Ejecutamos la consulta pura a PostgreSQL
+        return DB::select('SELECT * FROM sp_obtener_rubro(?)', [$id]);
     }
 }

@@ -62,6 +62,19 @@ class TransaccionController extends Controller
 
     }
 
+
+    public function getRubroRendimientoSp(?int $rubro_id = null)
+    {
+
+        try {
+            $news = $this->transaccionService->getRubroRendimientoSp($rubro_id);
+            return $this->respondOk($news, "Rubro obtenidas exitosamente");
+        } catch (Exception $e) {
+            return $this->parseException($e);
+        }
+
+    }
+
     // public function store(StoreTransaccionRequest $request): JsonResponse
     // {
     //     try {

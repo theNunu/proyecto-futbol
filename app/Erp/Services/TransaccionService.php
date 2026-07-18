@@ -86,5 +86,11 @@ class TransaccionService
         return $resultado;
     }
 
+    public function getRubroRendimientoSp(?int $rubroId = null)
+    {
+        return DB::select('SELECT * FROM sp_obtener_rubro(?)', [$rubroId]);
+        // return $this->transaccionService->getRubroRendimientoSp($rubro_id);
+        //    return $this->respondOk($news, "Rubro obtenidas exitosamente");
+    }
 
 }
