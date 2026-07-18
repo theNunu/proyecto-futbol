@@ -3,6 +3,7 @@
 namespace App\Erp\Services;
 
 use App\Erp\Repositories\Contracts\TransaccionRepositoryInterface;
+use App\Erp\Repositories\Eloquent\TransaccionRepository;
 use App\Models\HistorialSaldo;
 use App\Models\Rubro;
 use App\Models\TipoPago;
@@ -13,6 +14,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Log;
 class TransaccionService
 {
+
+    protected $transaccionRepository;
+
+    public function __construct(TransaccionRepository $transaccionRepository)
+    {
+        $this->transaccionRepository = $transaccionRepository;
+    }
     public function getTransaccions()
     {
         return Transaccion::get();
@@ -86,11 +94,16 @@ class TransaccionService
         return $resultado;
     }
 
-    public function getRubroRendimientoSp(?int $rubroId = null)
+    public function getRubroRendimientoSp(array $filtros)
     {
-        return DB::select('SELECT * FROM sp_obtener_rubro(?)', [$rubroId]);
-        // return $this->transaccionService->getRubroRendimientoSp($rubro_id);
-        //    return $this->respondOk($news, "Rubro obtenidas exitosamente");
+
+        // Si el usuario envió un nombre, lo envolvemos en % para buscarlo en cualquier posición
+        if (!empty($filtros['nombre'])) {
+            $filtros['nombre'] = '%' . $filtros['nombre'] . '%';
+        }
+
+
+        return $this->transaccionRepository->buscarEnBaseDeDatos($filtros);
     }
 
 }

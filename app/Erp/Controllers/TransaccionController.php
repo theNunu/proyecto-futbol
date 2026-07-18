@@ -8,7 +8,7 @@ use App\Erp\Services\TransaccionService;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Http\Request;
 class TransaccionController extends Controller
 {
     protected $financieroService;
@@ -63,11 +63,16 @@ class TransaccionController extends Controller
     }
 
 
-    public function getRubroRendimientoSp(?int $rubro_id = null)
+    public function getRubroRendimientoSp(Request $request)
     {
 
         try {
-            $news = $this->transaccionService->getRubroRendimientoSp($rubro_id);
+
+            // Capturamos solo los filtros específicos que nos interesan
+            // Si no vienen en la URL, Laravel les asignará null de forma automática
+            $filtros = $request->only(['id','nombre', 'tipo']);
+
+            $news = $this->transaccionService->getRubroRendimientoSp($filtros);
             return $this->respondOk($news, "Rubro obtenidas exitosamente");
         } catch (Exception $e) {
             return $this->parseException($e);

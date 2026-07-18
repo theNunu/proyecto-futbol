@@ -15,7 +15,7 @@ class TransaccionRepository implements TransaccionRepositoryInterface
     {
         // Buscamos el último registro en el libro mayor
         $ultimoHistorial = HistorialSaldo::latest('historial_saldo_id')->first();
-        
+
         // Si no hay transacciones previas, el saldo inicial es 0.00
         return $ultimoHistorial ? $ultimoHistorial->saldo_posterior : 0.00;
     }
@@ -30,9 +30,21 @@ class TransaccionRepository implements TransaccionRepositoryInterface
         return HistorialSaldo::create($datosSaldo);
     }
 
-       public function buscarEnBaseDeDatos(?int $id = null): array
+    public function buscarEnBaseDeDatos(array $filtros): array
     {
-        // Ejecutamos la consulta pura a PostgreSQL
-        return DB::select('SELECT * FROM sp_obtener_rubro(?)', [$id]);
+
+        // 1. Extraemos los valores asegurando su existencia
+        $id = $filtros['id'] ?? null;
+        $nombre = $filtros['nombre'] ?? null;
+        $tipo = $filtros['tipo'] ?? null;
+        // // Pasamos ambos filtros al procedimiento almacenado de Postgres
+        // return DB::select('SELECT * FROM sp_obtener_rubro(?, ?)', [$nombre, $tipo]);
+
+          // 2. IMPORTANTE: El orden en este array debe ser EXACTAMENTE: ID, Nombre, Tipo
+        return DB::select('SELECT * FROM sp_obtener_rubro(?, ?, ?)', [
+            $id,       // Va a la posición 1 (integer)
+            $nombre,   // Va a la posición 2 (varchar)
+            $tipo      // Va a la posición 3 (varchar)
+        ]);
     }
 }
