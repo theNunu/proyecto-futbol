@@ -40,6 +40,7 @@ class NewsRepository
             'summary' => $data['summary'],
             'begin_date' => $data['begin_date'],
             'end_date' => $data['end_date'],
+            'file_id' => $data['file_id'],
             'is_active' => $data['is_active'],
         ]);
     }

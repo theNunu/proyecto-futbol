@@ -26,6 +26,7 @@ class NewsService
 
     public function store(array $data): News
     {
+        // dd('tilina', $data);
         // 1. Convertir las strings a instancias de Carbon para compararlas
         $inicio = Carbon::parse($data['begin_date']);
         $fin = Carbon::parse($data['end_date']);
