@@ -5,6 +5,7 @@ use App\Erp\Controllers\RubroController;
 use App\Erp\Controllers\TipoPagoController;
 use App\Erp\Controllers\TransaccionController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\NewsController;
@@ -109,10 +110,15 @@ Route::prefix('news')->group(function () {
     Route::put('{news_id}', [NewsController::class, 'update']);
 });
 
+// 1. Endpoint Único para subir CUALQUIER archivo (Fotos, Videos, PDFs)
+Route::prefix('files')->group(function () {
+    Route::post('', [FileController::class, 'store']);
+});
+
 Route::prefix('transacciones')->group(function () {
     Route::get('', [TransaccionController::class, 'index']);
     Route::get('rubro-rendimiento', [TransaccionController::class, 'getRubroRendimiento']);
-     Route::get('rubro-rendimiento/sp', [TransaccionController::class, 'getRubroRendimientoSp']);
+    Route::get('rubro-rendimiento/sp', [TransaccionController::class, 'getRubroRendimientoSp']);
     Route::post('', [TransaccionController::class, 'store']);
     // Route::post('', [NewsController::class, 'store']);
 });

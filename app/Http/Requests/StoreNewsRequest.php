@@ -24,6 +24,7 @@ class StoreNewsRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:30',
+            'file_id' => 'nullable|exists:files,file_id', // Validamos que el archivo exista
             'summary' => 'nullable|string|max:30', // Debe existir en la misma tabla
             'description' => 'required|string|max:35',
             'begin_date' => 'required|date_format:Y-m-d',

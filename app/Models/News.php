@@ -22,5 +22,10 @@ class News extends Model
         'is_active'
     ];
 
+    // Una noticia puede tener una imagen (o muchas, usando morphMany)
+    public function image()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
 
 }
