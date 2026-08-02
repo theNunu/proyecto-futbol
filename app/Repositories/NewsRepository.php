@@ -25,7 +25,7 @@ class NewsRepository
                 $valorBooleano = filter_var($filtrarEstado, FILTER_VALIDATE_BOOLEAN);
 
                 return $query->where('is_active', $valorBooleano);
-            })
+            })->with('files')
             ->get(); // Al final se ejecuta la consulta
         return $news;
         // return News::get();

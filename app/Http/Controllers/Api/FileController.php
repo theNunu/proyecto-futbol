@@ -23,6 +23,8 @@ class FileController extends Controller
         $uploadedFile = $request->file('file');
 
         // 2. Guardar en el disco configurado (ej: 'public' o 's3')
+        // $path = $uploadedFile->store('uploads/temp', 'public');
+        // Asegúrate de pasar 'public' como segundo parámetro:
         $path = $uploadedFile->store('uploads/temp', 'public');
 
         // 3. Registrar en la base de datos

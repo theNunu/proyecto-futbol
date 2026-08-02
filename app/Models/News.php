@@ -23,6 +23,11 @@ class News extends Model
         'is_active'
     ];
 
+    public function files()
+    {
+        return $this->belongsTo(File::class, 'file_id');
+    }
+
     // Una noticia puede tener una imagen (o muchas, usando morphMany)
     public function image()
     {
