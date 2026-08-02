@@ -34,7 +34,17 @@ class NewsRepository
     public function create(array $data): News
     {
         //  dd($data);
-        return News::create([
+        // return News::create([
+        //     'title' => $data['title'],
+        //     'description' => $data['description'],
+        //     'summary' => $data['summary'],
+        //     'begin_date' => $data['begin_date'],
+        //     'end_date' => $data['end_date'],
+        //     'file_id' => $data['file_id'],
+        //     'is_active' => $data['is_active'],
+        // ]);
+        // 1. Creamos la noticia
+        $news = News::create([
             'title' => $data['title'],
             'description' => $data['description'],
             'summary' => $data['summary'],
@@ -43,6 +53,13 @@ class NewsRepository
             'file_id' => $data['file_id'],
             'is_active' => $data['is_active'],
         ]);
+
+        // 2. Guardamos en la tabla pivote 'category_news' usando sync()
+        if (isset($data['catalog_details'])) {
+            $news->catalog_details()->sync($data['catalog_details']);
+        }
+
+        return $news;
     }
 
     public function findById(int $newsId): ?News

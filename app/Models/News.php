@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\CatalogDetail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class News extends Model
 {
@@ -32,6 +34,16 @@ class News extends Model
     public function image()
     {
         return $this->morphOne(File::class, 'fileable');
+    }
+
+    public function catalog_details(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            CatalogDetail::class,   // Modelo destino
+            'category_news',       // Tabla intermedia
+            'news_id',     // Llave foránea de este modelo (User) en la pivot
+            'catalog_detail_id'      // Llave foránea del modelo destino (Role) en la pivot
+        );
     }
 
 }
