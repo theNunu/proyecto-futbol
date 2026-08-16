@@ -59,4 +59,29 @@ class NewsController extends Controller
             return $this->parseException($e);
         }
     }
+
+
+    public function infoNews(Request $request): JsonResponse
+    {
+        try {
+
+
+            // dd($filtros, $isActive, 'eso tilin');
+            $filtros = $request->only(['name', 'description', 'is_active', 'p_category_id']);
+            // dd('tilina', $request);
+
+            $isActive = null;
+            if ($request->has('is_active') && $request->input('is_active') !== '' && $request->input('is_active') !== null) {
+                $isActive = $request->boolean('is_active'); // Retorna true o false booleano nativo
+            }
+
+            // dd($filtros, $isActive);
+
+
+            $news = $this->service->infoNews($filtros);
+            return $this->respondOk($news, "Noticia con filtros encontradas exitosamente");
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
 }

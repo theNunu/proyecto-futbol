@@ -45,9 +45,9 @@ class NewsService
         }
         // dd("la noticia: ",$data);
 
-        $this->categoryExist($data['catalog_details']);
+        // $this->categoryExist($data['catalog_details']);
 
-        $this->categoryValidated(self::CATEGORY_NEWS, $data['catalog_details']);
+        // $this->categoryValidated(self::CATEGORY_NEWS, $data['catalog_details']);
         return $this->repository->create($data);
 
     }
@@ -140,6 +140,24 @@ class NewsService
             // El arreglo $idsFaltantes contiene los IDs que no están en la tabla
         }
 
+
+    }
+
+    public function infoNews(array $filtros)
+    {
+        
+
+        // if (ctype_digit($newsId)) {
+        //     throw new \InvalidArgumentException('El ID debe ser un número entero.');
+        // }
+
+        return $this->repository->infoNews($filtros);
+
+        // if (!$news) {
+        //     throw new NotFoundHttpException('ID de la noticia no encontrada.');
+        // }
+
+        // return $news;
 
     }
 

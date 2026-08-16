@@ -105,6 +105,7 @@ Route::prefix('modules')->group(function () {
 
 Route::prefix('news')->group(function () {
     Route::get('', [NewsController::class, 'index']);
+    Route::get('info', [NewsController::class, 'infoNews']);
     Route::get('{news_id}', [NewsController::class, 'getById']);
     Route::post('', [NewsController::class, 'store']);
     Route::put('{news_id}', [NewsController::class, 'update']);

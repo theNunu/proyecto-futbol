@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 class NewsRepository
 {
 
@@ -80,6 +81,30 @@ class NewsRepository
         return $news;
     }
 
+    public function infoNews(array $filtros)
+    {
+
+        // 1. Extraemos los valores asegurando su existencia
+        $name = $filtros['name'] ?? null;
+        $description = $filtros['description'] ?? null;
+        $is_active = $filtros['is_active'] ?? null;
+        $category_id = $filtros['p_category_id'] ?? null;
+
+        // 2. Manejo preciso del booleano para el SP
+     
+
+        // // Pasamos ambos filtros al procedimiento almacenado de Postgres
+        // return DB::select('SELECT * FROM sp_obtener_rubro(?, ?)', [$nombre, $tipo]);
+
+        // 2. IMPORTANTE: El orden en este array debe ser EXACTAMENTE: ID, Nombre, Tipo
+        return DB::select('SELECT * FROM sp_search_noticias(?, ?, ?, ?)', [
+            $name,       // Va a la posición 1 (integer)
+            $description,   // Va a la posición 2 (varchar)
+            $is_active,      // Va a la posición 3 (varchar)
+            $category_id
+        ]);
+
+    }
 
 
 }

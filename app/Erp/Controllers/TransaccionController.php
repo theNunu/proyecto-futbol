@@ -67,11 +67,10 @@ class TransaccionController extends Controller
     {
 
         try {
-
             // Capturamos solo los filtros específicos que nos interesan
             // Si no vienen en la URL, Laravel les asignará null de forma automática
-            $filtros = $request->only(['id','nombre', 'tipo']);
-
+            $filtros = $request->only(['id', 'nombre', 'tipo']);
+            
             $news = $this->transaccionService->getRubroRendimientoSp($filtros);
             return $this->respondOk($news, "Rubro obtenidas exitosamente");
         } catch (Exception $e) {

@@ -30,7 +30,7 @@ class StoreNewsRequest extends FormRequest
             'begin_date' => 'required|date_format:Y-m-d',
             'end_date' => 'required|date_format:Y-m-d',
 
-            'catalog_details' => 'required|array',
+            'catalog_details' => 'nullable|array',
             'catalogs_details.*' => 'integer|exists:catalogs_details,catalog_detail_id', // Cambia 'role_id' por el nombre real de tu ID
             // 'end_date' => 'required|date_format:Y-m-d|after:begin_date',
         ];
