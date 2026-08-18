@@ -60,7 +60,7 @@ class NewsRepository
             $news->catalog_details()->sync($data['catalog_details']);
         }
 
-        return $news;
+        return $news->load('files');
     }
 
     public function findById(int $newsId): ?News
