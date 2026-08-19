@@ -4,6 +4,7 @@ use App\Admin\Controllers\AuthController;
 use App\Erp\Controllers\RubroController;
 use App\Erp\Controllers\TipoPagoController;
 use App\Erp\Controllers\TransaccionController;
+use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\MenuController;
@@ -136,6 +137,13 @@ Route::prefix('tipo-pagos')->group(function () {
     Route::get('{tipo_pago_id}', [TipoPagoController::class, 'getById']);
     Route::post('', [TipoPagoController::class, 'store']);
     Route::put('{tipo_pago_id}', [TipoPagoController::class, 'update']);
+});
+
+Route::prefix('banners')->group(function () {
+    Route::get('', [BannersController::class, 'index']);
+    Route::get('{banner_id}', [BannersController::class, 'getById']);
+    Route::post('', [BannersController::class, 'store']);
+    Route::put('{banner_id}', [BannersController::class, 'update']);
 });
 
 
