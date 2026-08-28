@@ -25,13 +25,13 @@ class Banner extends Model
         // 'is_active'
     ];
 
-    public function files()
+    public function files() //para juntar banner con file
     {
         return $this->belongsTo(File::class, 'file_id');
     }
 
     // Una noticia puede tener una imagen (o muchas, usando morphMany)
-    public function image()
+    public function image() //para juntar banner con file
     {
         return $this->morphOne(File::class, 'fileable');
     }
