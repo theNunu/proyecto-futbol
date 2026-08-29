@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Catalog;
 use App\Models\CatalogDetail;
 use App\Models\News;
+use App\Models\NewsMedia;
 use App\Repositories\NewsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -164,7 +165,7 @@ class NewsService
 
     public function addMedia(array $request, string $id)
     {
-        
+
         $news = News::findOrFail($id);
 
         $insertRows = [];
@@ -181,9 +182,23 @@ class NewsService
                     'url_externo' => null,
                 ];
             }
-            dd('pdiddy', $request, $insertRows);
+            // dd('pdiddy', $request, $insertRows);
 
         }
+
+        // INSERTAR DIRECTAMENTE EN news_files
+
+        foreach ($insertRows as $item) {
+            NewsMedia::create([
+                'new_id' => $item['new_id'],
+                'file_id' =>  $item['file_id'],
+                'type' => $item['type'],
+                'url_externo' => $item['url_externo'] ?? null,
+            ]);
+        }
+        // foreach ($insertRows as $row) {
+        //     $news->newsWithMedia->($row)->save();
+        // }
         //     $insertRows[] = [
         //         'new_id' => $news->new_id,
         //         'file_id' => $request['images'],
