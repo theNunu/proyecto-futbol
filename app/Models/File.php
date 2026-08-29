@@ -10,8 +10,19 @@ class File extends Model
     protected $fillable = ['name', 'path', 'mime_type', 'size', 'fileable_id', 'fileable_type'];
 
     // Relación polimórfica inversa
-    public function fileable()
+    public function fileable() // ni entiendo por que, solo me lo dio la ia
     {
         return $this->morphTo();
+    }
+
+
+    public function newsWithMedia()
+    {
+        return $this->belongsToMany(
+            File::class,
+            'news_media',
+            'new_id',
+            'file_id'
+        );
     }
 }

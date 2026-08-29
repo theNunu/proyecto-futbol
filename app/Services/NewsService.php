@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 use InvalidArgumentException;
 use PHPUnit\Framework\Constraint\IsEmpty;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 // use App\Repositories\TournamentRepository;
 class NewsService
 {
@@ -145,7 +146,7 @@ class NewsService
 
     public function infoNews(array $filtros)
     {
-        
+
 
         // if (ctype_digit($newsId)) {
         //     throw new \InvalidArgumentException('El ID debe ser un número entero.');
@@ -159,6 +160,39 @@ class NewsService
 
         // return $news;
 
+    }
+
+    public function addMedia(array $request, string $id)
+    {
+        
+        $news = News::findOrFail($id);
+
+        $insertRows = [];
+
+        // IMAGEN (siempre UUID)
+        if (!empty($request['images'])) {
+
+            foreach ($request['images'] as $imageId) {
+
+                $insertRows[] = [
+                    'new_id' => $news->news_id,
+                    'file_id' => $imageId,
+                    'type' => 'image',
+                    'url_externo' => null,
+                ];
+            }
+            dd('pdiddy', $request, $insertRows);
+
+        }
+        //     $insertRows[] = [
+        //         'new_id' => $news->new_id,
+        //         'file_id' => $request['images'],
+        //         'type' => 'image',
+        //         'url_externo' => null,
+        //     ];
+        // }
+
+        // return $news->load(['images', 'videos']);
     }
 
 }

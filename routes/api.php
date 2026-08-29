@@ -110,6 +110,7 @@ Route::prefix('news')->group(function () {
     Route::get('{news_id}', [NewsController::class, 'getById']);
     Route::post('', [NewsController::class, 'store']);
     Route::put('{news_id}', [NewsController::class, 'update']);
+    Route::post('{news_id}/add-media', [NewsController::class, 'addMedia']);
 });
 
 // 1. Endpoint Único para subir CUALQUIER archivo (Fotos, Videos, PDFs)

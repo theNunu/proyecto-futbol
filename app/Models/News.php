@@ -46,4 +46,15 @@ class News extends Model
         );
     }
 
+    public function newsWithMedia()
+    {
+        return $this->belongsToMany(
+            News::class,
+            'news_media',
+            'file_id',
+            'new_id'
+        );
+    }
+
+
 }

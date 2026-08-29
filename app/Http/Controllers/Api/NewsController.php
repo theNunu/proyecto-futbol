@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMedia;
+use App\Http\Requests\StoreMediaRequest;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Services\NewsService;
@@ -84,4 +86,25 @@ class NewsController extends Controller
             return $this->parseException($e);
         }
     }
+
+    public function addMedia(StoreMediaRequest $request, $news_id): JsonResponse
+    {
+
+        try {
+         
+            //  dd('tilina', $request);
+            $news = $this->service->addMedia($request->validated(), $news_id);
+            return $this->respondOk($news, "Noticia actualizada exitosamente");
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+
+    }
+
+    //  return response()->json(
+//      $this->newsService->addMedia( $request->validated(), $id),
+//      200
+//  );
+
+
 }
