@@ -28,6 +28,18 @@ class StoreMediaRequest extends FormRequest
         return [
             'images' => 'nullable|array',
             'images.*' => 'integer|exists:files,file_id',
+            'videos' => 'nullable|array',
+
+            // 'videos.*' => [
+            //     'required',
+            //     function ($attribute, $value, $fail) {
+            //         // Si no es un número entero válido y tampoco es una URL válida, falla.
+            //         if (!filter_var($value, FILTER_VALIDATE_INT) && !filter_var($value, FILTER_VALIDATE_URL)) {
+            //             $fail("El elemento en {$attribute} debe ser un ID entero o una URL válida.");
+            //         }
+            //     },
+            // ],
+            // 'videos.*' => 'integer',
             // 'images' => 'nullable|integer|exists:files,file_id',
             // 'videos' => 'nullable',
         ];

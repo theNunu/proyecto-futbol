@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Catalog;
 use App\Models\CatalogDetail;
+use App\Models\File;
 use App\Models\News;
 use App\Models\NewsMedia;
 use App\Repositories\NewsRepository;
@@ -182,19 +183,52 @@ class NewsService
                     'url_externo' => null,
                 ];
             }
-            // dd('pdiddy', $request, $insertRows);
+            //  dd('pdiddy', $request, $insertRows);
 
         }
+        if (!empty($request['videos'])) {
+
+            $videoExist = [];
+
+            foreach ($request['videos'] as $video) {
+
+                $exist = File::where('file_id', $video)->first();
+
+                if ($exist) { // si el id existe entonces guardar en array7
+                    $videosExist[] = $video; //acumular videos de tabla file que no existen
+                }
+
+                // Cortas 2 imágenes. $data['images'] cambia automáticamente en esta línea.
+                // $videosNotExist = array_splice($request['videos'], 0, 2);
+
+                $insertRows[] = [
+                    'new_id' => $news->news_id,
+                    'file_id' => $video,
+                    'type' => 'videos',
+                    'url_externo' => null,
+                ];
+            }
+
+        }
+
+        dd('pdiddy', $request, $insertRows, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosExist);
 
         // INSERTAR DIRECTAMENTE EN news_files
 
         foreach ($insertRows as $item) {
             NewsMedia::create([
                 'new_id' => $item['new_id'],
-                'file_id' =>  $item['file_id'],
+                'file_id' => $item['file_id'],
                 'type' => $item['type'],
                 'url_externo' => $item['url_externo'] ?? null,
             ]);
+
+            $insertRows[] = [
+                'new_id' => $news->news_id,
+                'file_id' => $imageId,
+                'type' => 'video',
+                'url_externo' => null,
+            ];
         }
         // foreach ($insertRows as $row) {
         //     $news->newsWithMedia->($row)->save();
