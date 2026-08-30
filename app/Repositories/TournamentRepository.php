@@ -17,12 +17,13 @@ class TournamentRepository
         return Tournament::where('tournament_id', $tournamentId)->first();
     }
 
-    public function create(array $data): Tournament
+    public function create(array $data, string $seasonName): Tournament
     {
+       
         return Tournament::create([
-            'name'     => $data['name'],
-            'season'   => $data['season'],
-            'season_id'   => $data['season_id'],
+            'name' => $data['name'],
+            'season' => $seasonName,
+            'season_id' => $data['season_id'],
         ]);
         // return Tournament::create($data);
     }
@@ -30,9 +31,9 @@ class TournamentRepository
     public function update(Tournament $tournament, array $data): Tournament
     {
         $tournament->update([
-            'name'     => $data['name'],
-            'season'   => $data['season'],
-            'season_id'   => $data['season_id'],
+            'name' => $data['name'],
+            'season' => $data['season'],
+            'season_id' => $data['season_id'],
         ]);
         return $tournament;
     }
@@ -50,7 +51,7 @@ class TournamentRepository
         $role->save();
         return $role;
     }
-    
-    
+
+
     */
 }

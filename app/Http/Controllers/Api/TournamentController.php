@@ -27,6 +27,7 @@ class TournamentController extends Controller
     public function store(StoreTournamentRequest $request): JsonResponse
     {
         try {
+            // dd("tilin");
             $tournament = $this->service->store($request->validated());
             return $this->respondOk($tournament);
         } catch (\Exception $e) {

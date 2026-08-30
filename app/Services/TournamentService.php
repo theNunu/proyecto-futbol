@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Season;
 use App\Models\Tournament;
 use App\Repositories\TournamentRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -45,9 +46,20 @@ class TournamentService
 
     }
 
-    public function store(array $data): array
+    public function store(array $data)
     {
-        $tournament = $this->repository->create($data);
+
+        $season = Season::where('season_id',$data['season_id'], )->first();
+
+        if(!$season) {
+            throw new NotFoundHttpException('ID de la temporada no encontrada.');
+        }
+
+        // dd($data, $season->name);
+
+        $tournament = $this->repository->create($data, $season->name);
+
+        // return $tournament;
 
         return $tournament->only([
             'tournament_id',
@@ -92,6 +104,6 @@ class TournamentService
         //     $producto = Producto::findOrFail($id); 
         return $tournament->delete();
     }
-    
+
 
 }
