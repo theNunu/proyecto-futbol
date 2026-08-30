@@ -26,7 +26,7 @@ return new class extends Migration {
                 ->references('news_id') // <-- AQUÍ pones el nombre real de la columna ID en tu tabla news
                 ->onDelete('cascade');
 
-            $table->foreignId('file_id')
+            $table->foreignId('file_id') //en dbeaver lo cambie a que sea opcional
                 ->constrained('files')
                 ->references('file_id') // <-- AQUÍ pones el nombre real de la columna ID en tu tabla news
                 ->onDelete('cascade');
