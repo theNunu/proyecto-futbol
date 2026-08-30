@@ -188,13 +188,13 @@ class NewsService
         }
         if (!empty($request['videos'])) {
 
-            $videoExist = [];
+            $videosExist = [];
 
             foreach ($request['videos'] as $video) {
 
                 $exist = File::where('file_id', $video)->first();
 
-                if ($exist) { // si el id existe entonces guardar en array7
+                if (!$exist) { // si el id existe entonces guardar en array7
                     $videosExist[] = $video; //acumular videos de tabla file que no existen
                 }
 
@@ -211,7 +211,7 @@ class NewsService
 
         }
 
-        dd('pdiddy', $request, $insertRows, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosExist);
+        dd('pdiddy', $request, $insertRows, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosExist, "lo que se guarada",$insertRows);
 
         // INSERTAR DIRECTAMENTE EN news_files
 
