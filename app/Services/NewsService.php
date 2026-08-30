@@ -192,6 +192,8 @@ class NewsService
 
             $videosNotExist = [];
 
+            $urlNotValid = [];
+
             foreach ($request['videos'] as $video) {
                 if (is_numeric($video)) { // CASO 1: Es un ID entero (debe existir en la tabla File) 
 
@@ -211,12 +213,25 @@ class NewsService
                     }
 
                 } else {    // CASO 2: Es una URL externa (no se busca en la BD, se guarda directo)
-                    $insertRows[] = [
-                        'new_id' => $news->news_id,
-                        'file_id' => null, // No tiene ID de la tabla File
-                        'type' => 'videos',
-                        'url_externo' => $video, // Guardamos la URL de YouTube/Vimeo aquí
-                    ];
+
+                    $regexYouTube = '/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i';
+
+                    // 2. Validamos con PHP puro dentro del Service
+                    if (!$video || !filter_var($video, FILTER_VALIDATE_URL) || !preg_match($regexYouTube, $video)) {
+                        // Si no es válida, lanzamos un error de validación
+                        // throw ValidationException::withMessages(['video_url' => ['El enlace proporcionado debe ser una URL válida de YouTube.']]);
+                        $urlNotValid[] = $video;
+
+                    } else {
+                        $insertRows[] = [
+                            'new_id' => $news->news_id,
+                            'file_id' => null, // No tiene ID de la tabla File
+                            'type' => 'videos',
+                            'url_externo' => $video, // Guardamos la URL de YouTube/Vimeo aquí
+                        ];
+
+                    }
+
                 }
 
             }
