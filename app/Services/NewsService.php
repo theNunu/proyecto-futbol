@@ -171,7 +171,7 @@ class NewsService
 
         $insertRows = [];
 
-        // IMAGEN (siempre UUID)
+        // IMAGEN 
         if (!empty($request['images'])) {
 
             foreach ($request['images'] as $imageId) {
@@ -186,34 +186,46 @@ class NewsService
             //  dd('pdiddy', $request, $insertRows);
 
         }
+
+        // VIDEOS 
         if (!empty($request['videos'])) {
 
-            $videosExist = [];
+            $videosNotExist = [];
 
             foreach ($request['videos'] as $video) {
+                if (is_numeric($video)) { // CASO 1: Es un ID entero (debe existir en la tabla File) 
 
-                $exist = File::where('file_id', $video)->first();
+                    $exist = File::where('file_id', $video)->first();
 
-                if (!$exist) { // si el id existe entonces guardar en array7
-                    $videosExist[] = $video; //acumular videos de tabla file que no existen
+                    if ($exist) { // si el id existe entonces guardar en array
+                        // ✅ SI EXISTE: Lo agregamos limpio a las filas por insertar
+                        $insertRows[] = [
+                            'new_id' => $news->news_id,
+                            'file_id' => $video,
+                            'type' => 'videos', // Nota: Asegúrate si tu BD espera 'video' o 'videos'
+                            'url_externo' => null,
+                        ];
+                    } else {
+                        // ❌ NO EXISTE: Lo acumulamos en la lista de errores
+                        $videosNotExist[] = $video;
+                    }
+
+                } else {    // CASO 2: Es una URL externa (no se busca en la BD, se guarda directo)
+                    $insertRows[] = [
+                        'new_id' => $news->news_id,
+                        'file_id' => null, // No tiene ID de la tabla File
+                        'type' => 'videos',
+                        'url_externo' => $video, // Guardamos la URL de YouTube/Vimeo aquí
+                    ];
                 }
 
-                // Cortas 2 imágenes. $data['images'] cambia automáticamente en esta línea.
-                // $videosNotExist = array_splice($request['videos'], 0, 2);
-
-                $insertRows[] = [
-                    'new_id' => $news->news_id,
-                    'file_id' => $video,
-                    'type' => 'videos',
-                    'url_externo' => null,
-                ];
             }
 
         }
 
-        dd('pdiddy', $request, $insertRows, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosExist, "lo que se guarada",$insertRows);
+        // dd('pdiddy', $request, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosNotExist, "lo que se guarada", $insertRows);
 
-        // INSERTAR DIRECTAMENTE EN news_files
+        // INSERTAR DIRECTAMENTE EN NewsMedia
 
         foreach ($insertRows as $item) {
             NewsMedia::create([
@@ -223,12 +235,6 @@ class NewsService
                 'url_externo' => $item['url_externo'] ?? null,
             ]);
 
-            $insertRows[] = [
-                'new_id' => $news->news_id,
-                'file_id' => $imageId,
-                'type' => 'video',
-                'url_externo' => null,
-            ];
         }
         // foreach ($insertRows as $row) {
         //     $news->newsWithMedia->($row)->save();
