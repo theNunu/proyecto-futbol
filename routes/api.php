@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PhaseController;
+use App\Http\Controllers\Api\PlayerController;
 use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TournamentController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     return response()->json([
-        'message' => 'API funcionando'
+        'message' => 'API funcionando',
     ]);
 });
 
@@ -48,7 +49,6 @@ Route::prefix('seasons')->group(function () {
     Route::delete('/{season_id}', [SeasonController::class, 'destroy']);
     Route::patch('/{season_id}', [SeasonController::class, 'deactivate']);
 });
-
 
 // Route::apiResource('teams', TeamController::class)
 //     ->except(['show']);
@@ -113,6 +113,14 @@ Route::prefix('news')->group(function () {
     Route::post('{news_id}/add-media', [NewsController::class, 'addMedia']);
 });
 
+Route::prefix('players')->group(function () {
+    Route::get('', [PlayerController::class, 'index']);
+    Route::get('{player_id}', [PlayerController::class, 'getById']);
+    Route::post('', [PlayerController::class, 'store']);
+    Route::put('{player_id}', [PlayerController::class, 'update']);
+    Route::delete('{player_id}', [PlayerController::class, 'destroy']);
+});
+
 // 1. Endpoint Único para subir CUALQUIER archivo (Fotos, Videos, PDFs)
 Route::prefix('files')->group(function () {
     Route::post('', [FileController::class, 'store']);
@@ -146,5 +154,3 @@ Route::prefix('banners')->group(function () {
     Route::post('', [BannersController::class, 'store']);
     Route::put('{banner_id}', [BannersController::class, 'update']);
 });
-
-

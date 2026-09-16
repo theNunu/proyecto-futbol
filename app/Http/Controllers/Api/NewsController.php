@@ -94,7 +94,7 @@ class NewsController extends Controller
          
             //  dd('tilina', $request);
             $news = $this->service->addMedia($request->validated(), $news_id);
-            return $this->respondOk($news, "Noticia actualizada exitosamente");
+            return $this->respondOk($news, "Media agregada a la Noticia correctamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
         }

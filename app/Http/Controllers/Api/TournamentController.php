@@ -19,9 +19,19 @@ class TournamentController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json(
-            $this->service->list()
-        );
+        // return response()->json(
+        //     $this->service->list()
+        // );
+
+        try {
+            // 1. Capturamos el parámetro 'nombre' (si no existe, será null)
+            // $request->query('title');
+            // $request->query('is_active');
+            $tournaments = $this->service->list();
+            return $this->respondOk($tournaments, "Noticias obtenidas exitosamente");
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
     }
 
     public function store(StoreTournamentRequest $request): JsonResponse
@@ -55,9 +65,9 @@ class TournamentController extends Controller
         }
     }
 
-    public function destroy( $tournament_id): JsonResponse
+    public function destroy($tournament_id): JsonResponse
     {
-         try {
+        try {
             $deleted = $this->service->delete($tournament_id);
             return $this->respondOk($deleted);
         } catch (\Exception $e) {
