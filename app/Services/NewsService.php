@@ -238,31 +238,66 @@ class NewsService
 
         }
 
-        // dd('pdiddy', $request, 'videos ingresados del usaurio; ', $request['videos'], 'file id (videos) que  no existen', $videosNotExist, "lo que se guarada", $insertRows);
-
-        // INSERTAR DIRECTAMENTE EN NewsMedia
-
+        // --- SECCIÓN DE INSERCIÓN ---
+        $savedMedia = [];
+        // insertRows  contiene los videos e iamges que se guaradan en NewsMedia
         foreach ($insertRows as $item) {
-            NewsMedia::create([
+            $mediaCreated = NewsMedia::create([
                 'new_id' => $item['new_id'],
                 'file_id' => $item['file_id'],
                 'type' => $item['type'],
                 'url_externo' => $item['url_externo'] ?? null,
             ]);
 
+            $savedMedia[] = $mediaCreated;
         }
-        // foreach ($insertRows as $row) {
-        //     $news->newsWithMedia->($row)->save();
-        // }
-        //     $insertRows[] = [
-        //         'new_id' => $news->new_id,
-        //         'file_id' => $request['images'],
-        //         'type' => 'image',
-        //         'url_externo' => null,
-        //     ];
-        // }
 
-        // return $news->load(['images', 'videos']);
+        // --- PROCESAMIENTO Y DISTINCIÓN DE MEDIOS ---
+        // Convertimos a colección para agrupar y formatear fácilmente por tipo
+        $mediaCollection = collect($savedMedia);
+
+        // Filtramos y mapeamos las imágenes guardadas en esta petición
+        $attachedImages = $mediaCollection->where('type', 'image')->map(function ($media) {
+            return [
+                // 'id' => $media->id,
+                'file_id' => $media->file_id,
+            ];
+        })->values(); // values() resetea los índices del array
+
+        // Filtramos y mapeamos los videos guardados en esta petición
+        $attachedVideos = $mediaCollection->where('type', 'videos')->map(function ($media) {
+            return [
+                // 'id' => $media->id,
+                'file_id' => $media->file_id,
+                'url_externo' => $media->url_externo,
+            ];
+        })->values();
+
+        // --- RETORNO DE LA RESPUESTA ---
+        return [
+            // 'status' => 'success',
+            // 'message' => 'Multimedia procesada y asignada correctamente.',
+            // 'data' => [
+                'news' => [
+                    'news_id' => $news->news_id,
+                    'title' => $news->title,
+                    'description' => $news->description,
+                    'created_at' => $news->created_at,
+                ],
+                // Aquí se hace la distinción limpia de los nuevos elementos adjuntos
+                'media_to_news' => [
+                    'images' => $attachedImages,
+                    'videos' => $attachedVideos,
+                ],
+                // Bloque informativo de datos ignorados o no encontrados
+                // 'errors' => [
+                //     'videos_not_exist' => $videosNotExist ?? [],
+                //     'urls_not_valid' => $urlNotValid ?? []
+                // ]
+            ];
+
+
     }
+
 
 }
