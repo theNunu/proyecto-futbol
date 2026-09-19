@@ -48,15 +48,19 @@ class UserService
         ]);
 
         // dd('CREDENCIALES: ', $data, "username: ", $username, $data['email'], $personCreated, $personCreated->person_id);
-
+        $password = $this->generatePassword();
         $user = User::create([  //1. crear Usuario para la pagina
             'name' => $username,
             'email' => $data['email'],
-            'password' => $this->generatePassword(), //hashear contraseña
+            'password' => Hash::make($password), //hashear contraseña
             'person_id' => $personCreated->person_id
         ]);
 
-        return $user;
+        // return $user;
+        return [
+            "usuario_creado" => $user,
+            "password" => $password
+        ];
     }
 
 
@@ -70,8 +74,8 @@ class UserService
 
     private function generatePassword()
     {
-        $password = random_int(1000, 9999);  // Exactamente 4 dígitos (entre 1000 y 9999)
-        return Hash::make($password);
+        return random_int(1000, 9999);  // Exactamente 4 dígitos (entre 1000 y 9999)
+        // return Hash::make($password);
     }
 
     private function emailExsits($email)
