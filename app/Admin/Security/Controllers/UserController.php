@@ -22,7 +22,7 @@ class UserController extends Controller
     public function register(UserRequest $request)
     {
         try {
-            dd('pa que la pases bie');
+            // dd('pa que la pases bie');
             $result = $this->userService->register($request->validated());
             return $this->respondOk($result, "Usuario regitrado correctamente");
         } catch (Exception $e) {

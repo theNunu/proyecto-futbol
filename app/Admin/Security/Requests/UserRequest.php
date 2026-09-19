@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'last_name' => $ruleName,
             'identification_type' => 'required|string|max:20',
             'identification_number' => 'required|string|max:20',
-            'image_url' => 'required|string|max:30',
+            'image_url' => 'nullable|string|max:30',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|max:10',
             // Valida que sea una fecha real, con formato Año-Mes-Día y que no sea una fecha futura

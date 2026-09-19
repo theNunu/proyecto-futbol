@@ -13,7 +13,7 @@ class Person extends Model
     public $incrementing = false; //para genera un uuid atmatico UUID 1. punto
     protected $keyType = 'string'; //para genera un uuid atmatico UUID 2. punto
     protected $fillable = [
-        // 'person_id',
+         'person_id',
         'first_name',
         'last_name',
         'identification_type',
