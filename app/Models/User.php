@@ -57,4 +57,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // Un usuario pertenece a una única persona
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
 }

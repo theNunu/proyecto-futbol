@@ -1,6 +1,7 @@
 <?php
 
 use App\Admin\Controllers\AuthController;
+use App\Admin\Security\Controllers\UserController;
 use App\Erp\Controllers\RubroController;
 use App\Erp\Controllers\TipoPagoController;
 use App\Erp\Controllers\TransaccionController;
@@ -82,9 +83,10 @@ Route::prefix('catalogs')->group(function () {
     // Route::get('/{team_id}', [TeamController::class, 'show']);
 });
 
-Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+// crear un usuario
+Route::post('/register', [UserController::class, 'register']);
 // Route::get('/menus', [MenuController::class, 'index']);
 // Route::post('/menus', [MenuController::class, 'store']);
 
