@@ -68,6 +68,9 @@ class UserService
     {
         $firstCaracter = Str::of($firstName)->substr(0, 1); // Resultado: "L" obtener primera letra de fist_name
         $username = $firstCaracter . $lastName;
+
+        $count = User::where('name', 'ILIKE', "%{$username}%")->count(); // validatr si el usrname para user existe
+        $username = $count > 0 ? "{$username}" . ($count + 1) : $username;
         return $username;
 
     }
