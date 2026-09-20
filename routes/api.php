@@ -1,6 +1,7 @@
 <?php
 
 use App\Admin\Controllers\AuthController;
+use App\Admin\Security\Controllers\RoleController;
 use App\Admin\Security\Controllers\UserController;
 use App\Erp\Controllers\RubroController;
 use App\Erp\Controllers\TipoPagoController;
@@ -82,13 +83,21 @@ Route::prefix('catalogs')->group(function () {
     // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
     // Route::get('/{team_id}', [TeamController::class, 'show']);
 });
-
-// Route::post('/register', [AuthController::class, 'register']);
+// **********************Secutiry***********************
 Route::post('/login', [AuthController::class, 'login']);
-// crear un usuario
 Route::post('/register', [UserController::class, 'register']);
-// Route::get('/menus', [MenuController::class, 'index']);
-// Route::post('/menus', [MenuController::class, 'store']);
+// **********************Secutiry***********************
+
+Route::prefix('roles')->group(function () {
+
+    Route::get('', [RoleController::class, 'index']);
+    Route::get('{role_id', [RoleController::class, 'show']);
+    Route::post('', [RoleController::class, 'store']);
+    // Route::post('', [MenuController::class, 'store']);
+    // Route::put('{menu_id}', [MenuController::class, 'changePosition']);
+
+});
+
 
 Route::prefix('menus')->group(function () {
 
