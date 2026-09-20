@@ -2,7 +2,9 @@
 
 namespace App\Admin\Security\Services;
 
-use App\Admin\Repository\UserRepository;
+// use App\Admin\Repository\UserRepository;
+
+use App\Admin\Security\Repository\UserRepository;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;

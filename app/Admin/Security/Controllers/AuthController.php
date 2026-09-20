@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Admin\Controllers;
+namespace App\Admin\Security\Controllers;
 
 use App\Admin\Requests\RegisterRequest;
-use App\Admin\Service\AuthService;
+use App\Admin\Security\Services\AuthService;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,15 +18,15 @@ class AuthController extends Controller
     }
 
     // 📝 REGISTER
-    public function register(RegisterRequest $request)
-    {
-        try {
-            $result = $this->authService->register($request->validated());
-            return response()->json($result, 201);
-        } catch (Exception $e) {
-            return $this->parseException($e);
-        }
-    }
+    // public function register(RegisterRequest $request)
+    // {
+    //     try {
+    //         $result = $this->authService->register($request->validated());
+    //         return $this->respondOk($result, "Usuario Creado Correctamente");
+    //     } catch (Exception $e) {
+    //         return $this->parseException($e);
+    //     }
+    // }
 
     // 🔐 LOGIN
     public function login(Request $request)
@@ -36,12 +36,11 @@ class AuthController extends Controller
 
             $result = $this->authService->login($credentials);
 
-            return response()->json($result);
+            return $this->respondOk($result, "Usuario logeado correctamente");
+
 
         } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 401);
+            return $this->parseException($e);
         }
     }
 

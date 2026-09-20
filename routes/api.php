@@ -1,6 +1,6 @@
 <?php
 
-use App\Admin\Controllers\AuthController;
+use App\Admin\Security\Controllers\AuthController;
 use App\Admin\Security\Controllers\RoleController;
 use App\Admin\Security\Controllers\UserController;
 use App\Erp\Controllers\RubroController;

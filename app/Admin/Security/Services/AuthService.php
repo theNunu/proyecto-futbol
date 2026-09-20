@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Admin\Service;
+namespace App\Admin\Security\Services;
 
-use App\Admin\Repository\UserRepository;
+// use App\Admin\Repository\UserRepository;
+
+use App\Admin\Security\Repository\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
@@ -15,26 +17,6 @@ class AuthService
     {
         // dd('sasqas');
         $this->userRepository = $userRepository;
-    }
-
-    // 📝 REGISTER
-    public function register(array $data)
-    {
-
-        // dd('sasqas');
-        // Hashear password
-        $data['password'] = Hash::make($data['password']);
-
-        // Crear usuario
-        $user = $this->userRepository->create($data);
-
-        // Generar token
-        $token = JWTAuth::fromUser($user);
-
-        return [
-            'user' => $user,
-            'token' => $token
-        ];
     }
 
     // 🔐 LOGIN
