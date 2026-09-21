@@ -34,6 +34,9 @@ class UserRequest extends FormRequest
             'phone_number' => 'required|string|max:10',
             // Valida que sea una fecha real, con formato Año-Mes-Día y que no sea una fecha futura
             'birth_date' => ['required', 'date', 'date_format:Y-m-d', 'before:today'],
+
+            'roles' => 'nullable|array',
+            'roles.*' => 'integer|exists:roles,role_id',
         ];
     }
 

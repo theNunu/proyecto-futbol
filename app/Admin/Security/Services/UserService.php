@@ -26,7 +26,7 @@ class UserService
     // 📝 REGISTER
     public function register(array $data)
     {
-
+        // dd($data);
         $this->emailExsits($data['email']);
 
         $username = $this->generateUserName($data["first_name"], $data["last_name"]);
@@ -51,12 +51,22 @@ class UserService
 
         // dd('CREDENCIALES: ', $data, "username: ", $username, $data['email'], $personCreated, $personCreated->person_id);
         $password = $this->generatePassword();
-        $user = User::create([  //1. crear Usuario para la pagina
+        $user = User::create([  //2. crear Usuario para la pagina
             'name' => $username,
             'email' => $data['email'],
             'password' => Hash::make($password), //hashear contraseña
             'person_id' => $personCreated->person_id
         ]);
+
+
+        //asignar roles a usuarios
+
+        if ($data['roles']) {
+            foreach ($data['roles'] as $role) {
+                // 2. Asignar múltiples roles a la vez
+                $user->roles()->attach([$role]);
+            }
+        }
 
         // return $user;
         return [
