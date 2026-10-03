@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Admin\FootballManagment\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StorePlayerRequest extends FormRequest
+class UpdatePlayerRequest extends FormRequest
 {
     public function authorize(): bool
     {

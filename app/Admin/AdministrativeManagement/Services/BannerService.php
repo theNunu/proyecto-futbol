@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\AdministrativeManagement\Services;
 
+use App\Admin\AdministrativeManagement\Repository\BannerRepository;
 use App\Models\Banner;
 use App\Models\Catalog;
 use App\Models\CatalogDetail;
 use App\Models\News;
-use App\Repositories\BannerRepository;
+// use App\Repositories\BannerRepository;
 use App\Repositories\NewsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\FootballManagment\Services;
 
-use App\Repositories\PlayerRepository;
+use App\Admin\FootballManagment\Repository\PlayerRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

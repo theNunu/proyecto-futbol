@@ -1,22 +1,22 @@
 <?php
 
+use App\Admin\AdministrativeManagement\Controllers\BannersController;
+use App\Admin\AdministrativeManagement\Controllers\NewsController;
+use App\Admin\FootballManagment\Controllers\PlayerController;
+use App\Admin\FootballManagment\Controllers\SeasonController;
+use App\Admin\FootballManagment\Controllers\TournamentController;
 use App\Admin\Security\Controllers\AuthController;
 use App\Admin\Security\Controllers\RoleController;
 use App\Admin\Security\Controllers\UserController;
 use App\Erp\Controllers\RubroController;
 use App\Erp\Controllers\TipoPagoController;
 use App\Erp\Controllers\TransaccionController;
-use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
-use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PhaseController;
-use App\Http\Controllers\Api\PlayerController;
-use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
-use App\Http\Controllers\Api\TournamentController;
 use App\Http\Controllers\Api\TournamentTeamController;
 use Illuminate\Support\Facades\Route;
 

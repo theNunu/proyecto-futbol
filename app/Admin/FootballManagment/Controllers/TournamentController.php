@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\FootballManagment\Controllers;
 
+use App\Admin\FootballManagment\Requests\StoreTournamentRequest;
+use App\Admin\FootballManagment\Services\TournamentService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTournamentRequest;
+// use App\Http\Requests\StoreTournamentRequest;
 use App\Models\Tournament;
-use App\Services\TournamentService;
+// use App\Services\TournamentService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Admin\FootballManagment\Requests;
 
+use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class StoreBannerRequest extends FormRequest
+class StoreSeasonRequest extends FormRequest
 {
+    use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,7 +25,8 @@ class StoreBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_id' => 'nullable|exists:files,file_id', // Validamos que el archivo exista
+            'name' => 'required|string|max:100',
+            'active' => 'nullable|boolean'
         ];
     }
 

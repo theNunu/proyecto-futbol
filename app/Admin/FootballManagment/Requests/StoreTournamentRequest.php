@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Admin\FootballManagment\Requests;
 
+use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class UpdateNewsRequest extends FormRequest
+
+class StoreTournamentRequest extends FormRequest
 {
+
+   use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        
         return true;
     }
 
@@ -21,18 +24,14 @@ class UpdateNewsRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
+
     public function rules(): array
     {
-        //    dd('tilina');
         return [
-            // 'title' => 'required|string|max:30|unique:news,title,'.$this->route('news_id').'news_id',
-            'title' => 'required|string|max:30|unique:news,title,'.$this->route('news_id').',news_id',
-
-            'summary' => 'nullable|string|max:30', // Debe existir en la misma tabla
-            'description' => 'required|string|max:35',
-            'begin_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d',
-            // 'end_date' => 'required|date_format:Y-m-d|after:begin_date',
+            'name' => 'required|string|max:255',
+            // 'season' => 'required|string|max:50',
+            'season_id' => ['nullable', 'exists:seasons,season_id'],
         ];
     }
 

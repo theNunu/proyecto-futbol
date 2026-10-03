@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\FootballManagment\Controllers;
 
+use App\Admin\FootballManagment\Requests\StorePlayerRequest;
+use App\Admin\FootballManagment\Requests\UpdatePlayerRequest;
+use App\Admin\FootballManagment\Services\PlayerService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePlayerRequest;
-use App\Http\Requests\UpdatePlayerRequest;
-use App\Services\PlayerService;
+// use App\Http\Requests\StorePlayerRequest;
+// use App\Http\Requests\UpdatePlayerRequest;
+// use App\Services\PlayerService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

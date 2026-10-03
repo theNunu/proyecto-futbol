@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Admin\AdministrativeManagement\Repository;
 
 use App\Models\News;
 use Illuminate\Http\Request;

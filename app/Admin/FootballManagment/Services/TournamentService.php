@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\FootballManagment\Services;
 
+use App\Admin\FootballManagment\Repository\TournamentRepository;
 use App\Models\Season;
 use App\Models\Tournament;
-use App\Repositories\TournamentRepository;
+// use App\Repositories\TournamentRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TournamentService
 {

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Admin\AdministrativeManagement\Requests;
 
-use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class StoreSeasonRequest extends FormRequest
+class StoreBannerRequest extends FormRequest
 {
-    use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,8 +23,7 @@ class StoreSeasonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'active' => 'nullable|boolean'
+            'file_id' => 'nullable|exists:files,file_id', // Validamos que el archivo exista
         ];
     }
 

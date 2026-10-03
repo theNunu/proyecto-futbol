@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\AdministrativeManagement\Services;
 
+use App\Admin\AdministrativeManagement\Repository\NewsRepository;
 use App\Models\Catalog;
 use App\Models\CatalogDetail;
 use App\Models\File;
 use App\Models\News;
 use App\Models\NewsMedia;
-use App\Repositories\NewsRepository;
+// use App\Repositories\NewsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use InvalidArgumentException;

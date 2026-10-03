@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\AdministrativeManagement\Controllers;
 
+use App\Admin\AdministrativeManagement\Requests\StoreBannerRequest;
+use App\Admin\AdministrativeManagement\Services\BannerService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreMedia;
-use App\Http\Requests\StoreMediaRequest;
-use App\Http\Requests\StoreNewsRequest;
-use App\Http\Requests\UpdateNewsRequest;
+// use App\Http\Requests\StoreBannerRequest;
+// use App\Services\BannerService;
 use App\Services\NewsService;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Http\Request;
-class NewsController extends Controller
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class BannersController extends Controller
 {
-    public function __construct(private NewsService $service)
+    public function __construct(private BannerService $service)
     {
     }
 
@@ -20,43 +21,43 @@ class NewsController extends Controller
     {
         try {
             // 1. Capturamos el parámetro 'nombre' (si no existe, será null)
-            $request->query('title');
+            // $request->query('title');
             $request->query('is_active');
-            $news = $this->service->getAll($request);
-            return $this->respondOk($news, "Noticias obtenidas exitosamente");
+            $banners = $this->service->getAll($request);
+            return $this->respondOk($banners, "Banners obtenidaos exitosamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
     }
 
-    public function getById(int $news_id): JsonResponse
+    public function getById(int $banner_id): JsonResponse
     {
         try {
             // dd('tilina', $request);
-            $news = $this->service->getById($news_id);
-            return $this->respondOk($news, "Noticia encontrada exitosamente");
+            $banner = $this->service->getById($banner_id);
+            return $this->respondOk($banner, "Banner encontrado exitosamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
     }
 
-    public function store(StoreNewsRequest $request): JsonResponse
+    public function store(StoreBannerRequest $request): JsonResponse
     {
         try {
             // dd('tilina', $request);
             $news = $this->service->store($request->validated());
-            return $this->respondOk($news, "Noticia creada exitosamente");
+            return $this->respondOk($news, "Banner creado exitosamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
     }
 
-    public function update(UpdateNewsRequest $request, int $news_id): JsonResponse
+    public function update(StoreBannerRequest $request, int $news_id): JsonResponse
     {
         try {
             //  dd('tilina', $request);
             $news = $this->service->update($request->validated(), $news_id);
-            return $this->respondOk($news, "Noticia actualizada exitosamente");
+            return $this->respondOk($news, "Banner actualizado exitosamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
         }
@@ -86,25 +87,4 @@ class NewsController extends Controller
             return $this->parseException($e);
         }
     }
-
-    public function addMedia(StoreMediaRequest $request, $news_id): JsonResponse
-    {
-
-        try {
-         
-            //  dd('tilina', $request);
-            $news = $this->service->addMedia($request->validated(), $news_id);
-            return $this->respondOk($news, "Media agregada a la Noticia correctamente");
-        } catch (\Exception $e) {
-            return $this->parseException($e);
-        }
-
-    }
-
-    //  return response()->json(
-//      $this->newsService->addMedia( $request->validated(), $id),
-//      200
-//  );
-
-
 }
