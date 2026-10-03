@@ -7,45 +7,6 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\ErrorLog;
 use Illuminate\Validation\ValidationException;
-/**
- * @OA\Info(
- *     title="Api FEF",
- *     version="1.0.0"
- * ),
- * @OA\SecurityScheme(
- *     securityScheme="bearerAuth",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT",
- * ),
- * @OA\Security(security={"bearerAuth": {}}),
- * @OA\Server(
- *     url="/api",
- *     description="API base url"
- * )
- * @OA\Parameter(
- *     parameter="PageParam",
- *     name="page",
- *     in="query",
- *     description="Número de página por defecto es 1",
- *     @OA\Schema(type="integer", default=1, minimum=1)
- * ),
- * @OA\Parameter(
- *     parameter="PerPageParam",
- *     name="per_page",
- *     in="query",
- *     description="Cantidad de registros por página, por defecto 10",
- *     @OA\Schema(type="integer", default=10, minimum=1, maximum=100)
- * ),
- * @OA\Parameter(
- *     parameter="Search",
- *     name="search",
- *     in="query",
- *     description="Texto a buscar",
- *     @OA\Schema(type="string")
- * )
- */
-
 
 abstract class Controller
 {

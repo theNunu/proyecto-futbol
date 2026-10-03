@@ -45,5 +45,15 @@ class Role extends Model
             ->withPivot('role_user_id'); // 👈 Obliga a Laravel a cargar la columna UUID de la pivot
     }
 
+    /**
+     * Relación Muchos a Muchos con Opciones de Menú (Permisos).
+     */
+    public function menus_options(): BelongsToMany
+    {
+        return $this->belongsToMany(MenusOption::class, 'menus_options_roles', 'role_id', 'menu_option_id')
+            ->withPivot('menu_option_role_id', 'created_by', 'updated_by')
+            ->withTimestamps();
+    }
+
 
 }

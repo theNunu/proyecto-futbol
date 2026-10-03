@@ -43,7 +43,17 @@ Route::prefix('phases')->group(function () {
     Route::get('/tournament/{tournament_id}', [PhaseController::class, 'getPhasesByTournamentId']);
 });
 
-Route::prefix('seasons')->group(function () {
+// Route::prefix('seasons')->group(function () {
+//     Route::get('', [SeasonController::class, 'index']);
+//     Route::get('/{season_id}', [SeasonController::class, 'show']);
+//     Route::post('/', [SeasonController::class, 'store']);
+//     Route::put('{season_id}', [SeasonController::class, 'update']);
+//     Route::delete('/{season_id}', [SeasonController::class, 'destroy']);
+//     Route::patch('/{season_id}', [SeasonController::class, 'deactivate']);
+// });
+
+
+Route::middleware(['jwt', 'option:handle_games,modificar_temporadas'])->prefix('seasons')->group(function () {
     Route::get('', [SeasonController::class, 'index']);
     Route::get('/{season_id}', [SeasonController::class, 'show']);
     Route::post('/', [SeasonController::class, 'store']);
@@ -51,7 +61,6 @@ Route::prefix('seasons')->group(function () {
     Route::delete('/{season_id}', [SeasonController::class, 'destroy']);
     Route::patch('/{season_id}', [SeasonController::class, 'deactivate']);
 });
-
 // Route::apiResource('teams', TeamController::class)
 //     ->except(['show']);
 Route::prefix('teams')->group(function () {
@@ -88,13 +97,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 // **********************Secutiry***********************
 
-Route::prefix('roles')->group(function () {
+// Route::middleware(['jwt', 'option:handle_games'])->prefix
+//  nombre option viene  de bootstrap/app.php (se dio el nombre para el middleweare)
+Route::middleware(['jwt', 'option:handle_roles_users'])->prefix('roles')->group(function () {
 
     Route::get('', [RoleController::class, 'index']);
     Route::get('{role_id', [RoleController::class, 'show']);
     Route::post('', [RoleController::class, 'store']);
-    // Route::post('', [MenuController::class, 'store']);
-    // Route::put('{menu_id}', [MenuController::class, 'changePosition']);
 
 });
 
@@ -115,14 +124,30 @@ Route::prefix('modules')->group(function () {
 
 });
 
-Route::prefix('news')->group(function () {
-    Route::get('', [NewsController::class, 'index']);
-    Route::get('info', [NewsController::class, 'infoNews']);
-    Route::get('{news_id}', [NewsController::class, 'getById']);
-    Route::post('', [NewsController::class, 'store']);
-    Route::put('{news_id}', [NewsController::class, 'update']);
-    Route::post('{news_id}/add-media', [NewsController::class, 'addMedia']);
-});
+// Route::prefix('news')->group(function () {
+//     Route::get('', [NewsController::class, 'index']);
+//     Route::get('info', [NewsController::class, 'infoNews']);
+//     Route::get('{news_id}', [NewsController::class, 'getById']);
+//     Route::post('', [NewsController::class, 'store']);
+//     Route::put('{news_id}', [NewsController::class, 'update']);
+//     Route::post('{news_id}/add-media', [NewsController::class, 'addMedia']);
+// });
+
+// use App\Http\Controllers\NewsController;
+
+Route::middleware(['jwt', 'option:news_administrator'])
+    ->prefix('news')
+    ->controller(NewsController::class)
+    ->group(function () {
+
+        Route::get('', 'index');
+        Route::get('info', 'infoNews');
+        Route::get('{news_id}', 'getById');
+        Route::post('', 'store');
+        Route::put('{news_id}', 'update');
+        Route::post('{news_id}/add-media', 'addMedia');
+
+    });
 
 Route::prefix('players')->group(function () {
     Route::get('', [PlayerController::class, 'index']);
