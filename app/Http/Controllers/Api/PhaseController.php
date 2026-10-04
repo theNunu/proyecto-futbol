@@ -25,6 +25,16 @@ class PhaseController extends Controller
         }
     }
 
+    public function show($tournament_id): JsonResponse
+    {
+        try {
+            $tournaments = $this->service->getPhasesByTournamentId($tournament_id);
+            return $this->respondOk($tournaments);
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
+    }
+
     public function getPhasesByTournamentId($tournament_id): JsonResponse
     {
         try {

@@ -15,13 +15,15 @@ class PhaseRepository
     }
     public function getByTournament(int $tournamentId): Collection
     {
-        return Phase::where('tournament_id', $tournamentId)->orderBy('order')->get();
+        return Phase::where('tournament_id', $tournamentId)->orderBy('order','asc')->orderBy('name','asc')->get();
     }
 
     public function findById(int $phaseId): ?Phase
     {
         return Phase::find($phaseId);
     }
+
+    
 
     public function create(array $data): Phase
     {

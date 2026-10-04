@@ -45,8 +45,8 @@ class PhaseService
             throw new NotFoundHttpException('ID del Torneo no encontrada.');
         }
 
-        $phases = Phase::where('tournament_id', $tournament->tournament_id)
-            ->orderBy('order')->get();
+        $phases = $this->repository->getByTournament($tournament->tournament_id);
+        
         return [
             "tournament" => $tournament,
             "phases" => $phases
@@ -77,7 +77,7 @@ class PhaseService
         }
         $phase = $this->repository->update($phase, $data);
 
-         // Cargar torneo con TODAS sus fases
+        // Cargar torneo con TODAS sus fases
         $phase->load('tournament.phases');
 
         return [
