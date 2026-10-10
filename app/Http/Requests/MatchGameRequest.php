@@ -30,7 +30,7 @@ class MatchGameRequest extends FormRequest
             'away_team_id' => 'required|exists:teams,team_id',
             // 'away_team_id' => 'required|exists:teams,team_id','different:home_team_id',
             'match_date' => 'nullable|date',
-            // 'status' => ['in:scheduled,live,finished']
+            'status' => ['in:scheduled,live,finished']
         ];
     }
 

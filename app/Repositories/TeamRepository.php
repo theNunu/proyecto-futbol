@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TeamRepository
 {
-    public function getAll(): Collection
+    public function getAll()
     {
-        return Team::all();
+        // return Team::all();
+        return Team::select('team_id', 'name','short_name', 'logo_path')->get();
     }
 
     public function findById($teamId): ?Team

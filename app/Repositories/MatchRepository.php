@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 class MatchRepository
 {
 
-     public function create(array $data): GameMatch
+     public function create(array $data)
     {
-        return GameMatch::create($data);
+        // dd($data);
+        $created = GameMatch::create($data);
+        return $created->load('tournament','phase', 'homeTeam', 'awayTeam');
+        // return GameMatch::create($data);
     }
 
     public function getByTournament(int $tournamentId): Collection

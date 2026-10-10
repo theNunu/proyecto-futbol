@@ -13,7 +13,7 @@ class TeamService
     ) {
     }
 
-    public function list(): Collection
+    public function list()
     {
         return $this->repository->getAll();
     }

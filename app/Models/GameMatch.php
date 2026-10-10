@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameMatch extends Model
 {
-    protected $table = 'match_games';
+    protected $table = 'macth_games';
 
     protected $primaryKey = 'match_id';
 

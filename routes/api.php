@@ -13,6 +13,7 @@ use App\Erp\Controllers\TipoPagoController;
 use App\Erp\Controllers\TransaccionController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\MatchGameController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\PhaseController;
@@ -80,6 +81,11 @@ Route::prefix('tournament-teams')->group(function () {
     // Route::put('{team_id}', [TeamController::class, 'update']);
     // Route::delete('/{team_id}', [TeamController::class, 'destroy']);
     // Route::get('/{team_id}', [TeamController::class, 'show']);
+});
+
+Route::prefix('match-game')->group(function () {
+    Route::get('', [MatchGameController::class, 'index']);
+    Route::post('/', [MatchGameController::class, 'store']);
 });
 
 Route::prefix('catalogs')->group(function () {

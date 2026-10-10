@@ -24,14 +24,26 @@ class MatchGameController extends Controller
         );
     }
 
-    public function store(
-        MatchGameRequest $request
-    ): JsonResponse {
-        $match = $this->service->create(
-            $request->validated()
-        );
+    // public function store(
+    //     MatchGameRequest $request
+    // ): JsonResponse {
+    //     $match = $this->service->create(
+    //         $request->validated()
+    //     );
 
-        return response()->json($match, 201);
+    //     return response()->json($match, 201);
+    // }
+
+
+    public function store(MatchGameRequest $request): JsonResponse
+    {
+        try {
+            // dd("tilin");
+            $match = $this->service->create($request->validated());
+            return $this->respondOk($match, "Partido creado correctamente");
+        } catch (\Exception $e) {
+            return $this->parseException($e);
+        }
     }
 
     public function update(

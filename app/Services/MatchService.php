@@ -16,7 +16,7 @@ class MatchService
     ) {
     }
 
-    public function create(array $data): GameMatch
+    public function create(array $data)
     {
         return $this->repository->create($data);
     }
