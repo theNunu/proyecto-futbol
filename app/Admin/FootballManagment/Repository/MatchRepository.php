@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Admin\FootballManagment\Repository;
 
 use App\Models\GameMatch;
 use Illuminate\Database\Eloquent\Collection;

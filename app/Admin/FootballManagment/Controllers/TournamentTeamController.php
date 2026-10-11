@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\FootballManagment\Controllers;
 
+use App\Admin\FootballManagment\Requests\StoreTournamentTeamRequest;
+use App\Admin\FootballManagment\Services\TournamentTeamService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTournamentTeamRequest;
+// use App\Http\Requests\StoreTournamentTeamRequest;
 // use App\Http\Requests\StoreTournamentTeamRequest;
 use App\Models\TournamentTeam;
-use App\Services\TournamentTeamService;
+// use App\Services\TournamentTeamService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TournamentTeamController extends Controller

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\FootballManagment\Controllers;
 
+use App\Admin\FootballManagment\Requests\StoreTeamRequest;
+use App\Admin\FootballManagment\Services\TeamService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreTeamRequest;
+// use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
-use App\Services\TeamService;
+// use App\Services\TeamService;
 use Illuminate\Http\JsonResponse;
 class TeamController extends Controller
 {

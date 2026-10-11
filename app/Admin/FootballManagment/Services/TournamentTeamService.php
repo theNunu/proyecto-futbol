@@ -1,9 +1,10 @@
 <?php
-namespace App\Services;
+namespace App\Admin\FootballManagment\Services;
 
+use App\Admin\FootballManagment\Repository\TournamentTeamRepository;
 use App\Models\Tournament;
 use App\Models\TournamentTeam;
-use App\Repositories\TournamentTeamRepository;
+// use App\Repositories\TournamentTeamRepository;
 use Illuminate\Database\Eloquent\Collection;
 // use League\Config\Exception\ValidationException;
 use Illuminate\Validation\ValidationException;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Admin\FootballManagment\Controllers;
 
+use App\Admin\FootballManagment\Requests\MatchGameRequest;
+use App\Admin\FootballManagment\Services\MatchService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MatchGameRequest;
 use App\Models\GameMatch;
-use App\Services\MatchService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 class MatchGameController extends Controller

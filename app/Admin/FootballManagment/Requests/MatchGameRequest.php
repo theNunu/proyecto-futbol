@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Admin\FootballManagment\Requests;
 
-use App\Traits\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class StoreTeamRequest extends FormRequest
+class MatchGameRequest extends FormRequest
 {
-    use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,9 +23,14 @@ class StoreTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'short_name' => ['nullable', 'string', 'max:10'],
-            'logo_path' => ['nullable', 'string'],
+
+            'tournament_id' => 'required|exists:tournaments,tournament_id',
+            'phase_id' => 'required|exists:phases,phase_id',
+            'home_team_id' => 'required|exists:teams,team_id',
+            'away_team_id' => 'required|exists:teams,team_id',
+            // 'away_team_id' => 'required|exists:teams,team_id','different:home_team_id',
+            'match_date' => 'nullable|date',
+            'status' => 'required|string|in:scheduled,live,finished'
         ];
     }
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\FootballManagment\Services;
 
+use App\Admin\FootballManagment\Repository\MatchRepository;
 use App\Models\GameMatch;
 use App\Models\Phase;
 use App\Models\Tournament;
-use App\Repositories\MatchRepository;
+// use App\Repositories\MatchRepository;
 use App\Repositories\PhaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

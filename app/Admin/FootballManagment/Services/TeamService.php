@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Admin\FootballManagment\Services;
 
+use App\Admin\FootballManagment\Repository\TeamRepository;
 use App\Models\Team;
-use App\Repositories\TeamRepository;
+// use App\Repositories\TeamRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TeamService
