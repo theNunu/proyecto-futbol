@@ -86,7 +86,9 @@ Route::prefix('tournament-teams')->group(function () {
 
 Route::prefix('match-game')->group(function () {
     Route::get('', [MatchGameController::class, 'index']);
+    Route::get('{match_id}', [MatchGameController::class, 'show']);
     Route::post('/', [MatchGameController::class, 'store']);
+    Route::put('{match_id}', [MatchGameController::class, 'update']);
 });
 
 Route::prefix('catalogs')->group(function () {
