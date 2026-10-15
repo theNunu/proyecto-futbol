@@ -11,6 +11,7 @@ use App\Repositories\PhaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 class MatchService
 {
     public function __construct(
@@ -54,72 +55,83 @@ class MatchService
 
     */
 
-     /*
-     en caso de  haber creado (tournament_id, phase_id, home_team_id, away_team_id, match_date, status) y luego cambias a live y editas 
-     (home_away, away_score, status)pero luego vas a devolver el estado a programado  lo actualiado (home_score, away_socre, status)
-     se deschace  porque al ser otravez estado programdo puedes cambiar los equipos y quedaria raro
+    /*
+    en caso de  haber creado (tournament_id, phase_id, home_team_id, away_team_id, match_date, status) y luego cambias a live y editas 
+    (home_away, away_score, status)pero luego vas a devolver el estado a programado  lo actualiado (home_score, away_socre, status)
+    se deschace  porque al ser otravez estado programdo puedes cambiar los equipos y quedaria raro
 
-     */
-
+    */
     public function update(array $data, int $matchId)
     {
-
+        // 1. Verificar existencia
         $gameMatch = $this->matchRepository->getById($matchId);
-        // dd($gameMatch);
         if (!$gameMatch) {
             throw new NotFoundHttpException('ID de partido no encontrada.');
         }
-        // 2. Filtrar los campos permitidos según el estado actual
-        $camposPermitidos = match ($gameMatch->status) {
-            'scheduled' => $this->filtrarParaProgramado($data),
-            'live' => $this->filtrarParaEnVivo($data),
-            'finished' => $this->filtrarParaFinalizado($data),
-            default => throw new \InvalidArgumentException("Estado del evento no válido."),
-        };
 
-        // 3. Si no hay campos que se puedan actualizar, lanzar excepción o retornar
-        if (empty($camposPermitidos)) {
-            throw new \InvalidArgumentException("No se permiten modificar campos en el estado actual.");
+        $estadoActual = $gameMatch->status; // Estado en la BD antes del cambio
+        //   dd('eyd');
+        // 2. Aplicar validación estricta según el estado actual
+        $this->validarReglasPorEstado($estadoActual, $data);
+
+        // 3. Resolver el problema que planteas: Si vuelve de 'live' a 'scheduled', reseteamos los goles
+        if ($estadoActual === 'live' && isset($data['status']) && $data['status'] === 'scheduled') {
+            /*
+            • ¿Qué hace en total? Si el partido estaba en vivo, pero el usuario decidió regresarlo a programado,
+            el sistema dice: "Ok, te permito regresarlo, pero yo mismo voy a meter a la fuerza en la maleta ($data) 
+            que los goles de casa (home_score) y visita (away_score) vuelvan a ser 0". 
+            Así se limpia el marcador automáticamente.¿Lograste ver más claro el funcionamiento del foreach con la anal
+            */
+            $data['home_score'] = 0;
+            $data['away_score'] = 0;
         }
 
-        dd('bloquear', $data);
-        $result = $this->matchRepository->update($gameMatch, $data);
-
-        return $result;
-        // return $this->matchRepository->update($match, $data);
+        // 4. Guardar los datos (ya validados y limpios)
+        return $this->matchRepository->update($gameMatch, $data);
     }
 
-    private function filtrarParaProgramado(array $data): array
+    /**
+     * Valida estrictamente qué campos se permiten enviar según el estado actual del partido.
+     */
+    private function validarReglasPorEstado(string $estadoActual, array $data): void
     {
-        // En 'programado' se puede editar todo (ej: fecha, título, descripción, estado)
-        return $data;
+        // REGLA 3: Si ya está finalizado, no se permite enviar NADA para actualizar
+        if ($estadoActual === 'finished') {
+            throw new UnprocessableEntityHttpException("El partido ya está finalizado y no se puede modificar.");
+        }
+       
+        // REGLA 4: Si está en vivo, SOLO se permite actualizar home_score, away_score y status
+        if ($estadoActual === 'live') {
+         
+            $camposPermitidos = ['home_score', 'away_score', 'status'];
+                // dd('eyy');
+            // Revisamos si el usuario envió algún campo que NO esté en la lista de permitidos
+            foreach ($data as $key => $value) {
+                //   dd("ojo", $key,$value);
+                if (!in_array($key, $camposPermitidos)) {
+                    throw new UnprocessableEntityHttpException(
+                        "No puedes actualizar el campo '{$key}' mientras el partido esté EN VIVO."
+                    );
+                }
+            }
+        }
+
+        // REGLA 2: Si está programado, se permite editar sus campos operativos.
+        if ($estadoActual === 'scheduled') {
+            
+            $camposPermitidos = ['tournament_id', 'phase_id', 'home_team_id', 'away_team_id', 'match_date', 'status'];
+
+            foreach ($data as $key => $value) {
+                // Si envían 'home_score' o 'away_score' en 'scheduled', los rebotamos para evitar inconsistencias
+                if (!in_array($key, $camposPermitidos)) {
+                    throw new UnprocessableEntityHttpException(
+                        "No puedes modificar el campo '{$key}' en un partido PROGRAMADO."
+                    );
+                }
+            }
+        }
+
     }
-
-    private function filtrarParaEnVivo(array $data): array
-    {
-        // $invertido = array_flip($data);
-        // dd('eso', $data, $invertido);
-        // En 'en vivo' SOLO permitimos cambiar la descripción o pasar a 'finalizado'
-        // Ignoramos fechas o títulos si vienen en la petición
-
-        /*
-        1. array_flip(['descripcion', 'estado']): Transforma un arreglo simple en uno donde los textos se vuelven las
-        "llaves" (keys). Pasa de [0 => 'descripcion', 1 => 'estado'] a ['descripcion' => 0, 'estado' => 1].
-         */
-
-        /*
-        2. array_intersect_key($data, ...): Compara los datos que envió el usuario 
-        ($data) contra nuestro arreglo volteado. Solo conserva los elementos cuyas llaves existan en ambos arreglos.
-        */
-        return array_intersect_key($data, array_flip(['home_score', 'away_score', 'status', 'match_date']));
-    }
-
-    private function filtrarParaFinalizado(array $data): array
-    {
-        // En 'finalizado' ya NO se puede cambiar nada
-        return [];
-    }
-
     public function delete(GameMatch $match): void
     {
         $this->matchRepository->delete($match);
