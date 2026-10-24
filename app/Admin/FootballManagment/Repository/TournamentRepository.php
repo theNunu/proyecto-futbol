@@ -17,13 +17,13 @@ class TournamentRepository
         return Tournament::where('tournament_id', $tournamentId)->first();
     }
 
-    public function create(array $data, string $seasonName): Tournament
+    public function create(array $data): Tournament
     {
-       
+
         return Tournament::create([
             'name' => $data['name'],
-            'season' => $seasonName,
-            'season_id' => $data['season_id'],
+            'season' => $data['season']
+            // 'season_id' => $data['season_id'] ?? null,
         ]);
         // return Tournament::create($data);
     }
@@ -33,7 +33,7 @@ class TournamentRepository
         $tournament->update([
             'name' => $data['name'],
             'season' => $data['season'],
-            'season_id' => $data['season_id'],
+            // 'season_id' => $data['season_id'],
         ]);
         return $tournament;
     }

@@ -50,23 +50,22 @@ class TournamentService
     public function store(array $data)
     {
 
-        $season = Season::where('season_id',$data['season_id'], )->first();
+        // $season = Season::where('season_id',$data['season_id'], )->first();
 
-        if(!$season) {
-            throw new NotFoundHttpException('ID de la temporada no encontrada.');
-        }
+        // if(!$season) {
+        //     throw new NotFoundHttpException('ID de la temporada no encontrada.');
+        // }
 
         // dd($data, $season->name);
 
-        $tournament = $this->repository->create($data, $season->name);
+        $tournament = $this->repository->create($data);
 
         // return $tournament;
 
         return $tournament->only([
             'tournament_id',
             'name',
-            'season',
-            'season_id'
+            'season'
         ]);
     }
 
@@ -86,7 +85,7 @@ class TournamentService
         return $result->only([
             'tournament_id',
             'name',
-            'season_id'
+            // 'season_id'
         ]);
     }
 

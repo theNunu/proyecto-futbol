@@ -5,9 +5,6 @@ namespace App\Admin\AdministrativeManagement\Controllers;
 use App\Admin\AdministrativeManagement\Requests\StoreBannerRequest;
 use App\Admin\AdministrativeManagement\Services\BannerService;
 use App\Http\Controllers\Controller;
-// use App\Http\Requests\StoreBannerRequest;
-// use App\Services\BannerService;
-use App\Services\NewsService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -52,11 +49,11 @@ class BannersController extends Controller
         }
     }
 
-    public function update(StoreBannerRequest $request, int $news_id): JsonResponse
+    public function update(StoreBannerRequest $request, int $banner_id): JsonResponse
     {
         try {
             //  dd('tilina', $request);
-            $news = $this->service->update($request->validated(), $news_id);
+            $news = $this->service->update($request->validated(), $banner_id);
             return $this->respondOk($news, "Banner actualizado exitosamente");
         } catch (\Exception $e) {
             return $this->parseException($e);
@@ -64,27 +61,4 @@ class BannersController extends Controller
     }
 
 
-    public function infoNews(Request $request): JsonResponse
-    {
-        try {
-
-
-            // dd($filtros, $isActive, 'eso tilin');
-            $filtros = $request->only(['name', 'description', 'is_active', 'p_category_id']);
-            // dd('tilina', $request);
-
-            $isActive = null;
-            if ($request->has('is_active') && $request->input('is_active') !== '' && $request->input('is_active') !== null) {
-                $isActive = $request->boolean('is_active'); // Retorna true o false booleano nativo
-            }
-
-            // dd($filtros, $isActive);
-
-
-            $news = $this->service->infoNews($filtros);
-            return $this->respondOk($news, "Noticia con filtros encontradas exitosamente");
-        } catch (\Exception $e) {
-            return $this->parseException($e);
-        }
-    }
 }

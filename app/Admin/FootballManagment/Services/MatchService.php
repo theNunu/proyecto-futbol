@@ -86,6 +86,14 @@ class MatchService
             $data['away_score'] = 0;
         }
 
+        if ($estadoActual === 'live' && isset($data['status']) && $data['status'] === 'finished') {
+
+            $winner = $data['home_score'] > $data['away_score'] ? $gameMatch->homeTeam : $gameMatch->awayTeam;
+
+            $data['winner_team_id'] = $winner->team_id;
+            // dd("that tilin", $gameMatch->home_score, $gameMatch->away_score, $gameMatch, $gameMatch->awayTeam->team_id, $gameMatch->homeTeam->team_id);
+        }
+
         // 4. Guardar los datos (ya validados y limpios)
         return $this->matchRepository->update($gameMatch, $data);
     }
@@ -99,12 +107,12 @@ class MatchService
         if ($estadoActual === 'finished') {
             throw new UnprocessableEntityHttpException("El partido ya está finalizado y no se puede modificar.");
         }
-       
+
         // REGLA 4: Si está en vivo, SOLO se permite actualizar home_score, away_score y status
         if ($estadoActual === 'live') {
-         
+
             $camposPermitidos = ['home_score', 'away_score', 'status'];
-                // dd('eyy');
+            // dd('eyy');
             // Revisamos si el usuario envió algún campo que NO esté en la lista de permitidos
             foreach ($data as $key => $value) {
                 //   dd("ojo", $key,$value);
@@ -118,7 +126,7 @@ class MatchService
 
         // REGLA 2: Si está programado, se permite editar sus campos operativos.
         if ($estadoActual === 'scheduled') {
-            
+
             $camposPermitidos = ['tournament_id', 'phase_id', 'home_team_id', 'away_team_id', 'match_date', 'status'];
 
             foreach ($data as $key => $value) {

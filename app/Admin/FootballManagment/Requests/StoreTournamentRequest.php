@@ -10,7 +10,7 @@ use Illuminate\Contracts\Validation\Validator;
 class StoreTournamentRequest extends FormRequest
 {
 
-   use ApiResponse;
+    use ApiResponse;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -30,8 +30,8 @@ class StoreTournamentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            // 'season' => 'required|string|max:50',
-            'season_id' => ['nullable', 'exists:seasons,season_id'],
+            'season' => 'required|string|max:50',
+            // 'season_id' => ['nullable', 'exists:seasons,season_id'],
         ];
     }
 
