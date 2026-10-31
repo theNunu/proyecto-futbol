@@ -9,9 +9,9 @@ use App\Models\File;
 use Illuminate\Http\Request;
 class FileController extends Controller
 {
-    public function __construct(private CatalogService $service)
-    {
-    }
+    // public function __construct(private CatalogService $service)
+    // {
+    // }
 
     public function store(Request $request)
     {

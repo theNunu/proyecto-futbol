@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Services;
+// namespace App\Services;
+namespace App\Admin\Security\Services;
 
 use App\Models\Catalog;
 use App\Models\CatalogDetail;

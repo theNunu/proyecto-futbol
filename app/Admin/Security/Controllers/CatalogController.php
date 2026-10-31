@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Admin\Security\Services\CatalogService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCatalogDetailRequest;
 use App\Http\Requests\StoreCatalogRequest;
-use App\Services\CatalogService;
+// use App\Services\CatalogService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CatalogController extends Controller
